@@ -1,1 +1,4 @@
-export { PaginationQueryDto, type PaginatedResult } from './pagination-query.dto.js';
+export {
+  PaginationQueryDto,
+  type PaginatedResult,
+} from './pagination-query.dto.js';

@@ -16,9 +16,7 @@ import { hashPassword } from '../../common/utils/hash.util.js';
 export class UserService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findAll(
-    query: ListUsersQueryDto,
-  ): Promise<PaginatedResponseDto<User>> {
+  async findAll(query: ListUsersQueryDto): Promise<PaginatedResponseDto<User>> {
     const { skip, take } = getPaginationParams(query);
 
     const where: Prisma.UserWhereInput = {
@@ -88,7 +86,9 @@ export class UserService {
     });
 
     if (existing) {
-      throw new ConflictException(`User with email "${dto.email}" already exists`);
+      throw new ConflictException(
+        `User with email "${dto.email}" already exists`,
+      );
     }
 
     const passwordHash = await hashPassword(dto.password);

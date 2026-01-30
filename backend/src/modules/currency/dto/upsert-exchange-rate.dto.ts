@@ -8,7 +8,9 @@ export class UpsertExchangeRateDto {
   })
   @IsString()
   @Length(3, 3, { message: 'Currency code must be exactly 3 characters' })
-  @Matches(/^[A-Z]{3}$/, { message: 'Currency code must be 3 uppercase letters' })
+  @Matches(/^[A-Z]{3}$/, {
+    message: 'Currency code must be 3 uppercase letters',
+  })
   fromCurrency!: string;
 
   @ApiProperty({
@@ -17,7 +19,9 @@ export class UpsertExchangeRateDto {
   })
   @IsString()
   @Length(3, 3, { message: 'Currency code must be exactly 3 characters' })
-  @Matches(/^[A-Z]{3}$/, { message: 'Currency code must be 3 uppercase letters' })
+  @Matches(/^[A-Z]{3}$/, {
+    message: 'Currency code must be 3 uppercase letters',
+  })
   toCurrency!: string;
 
   @ApiProperty({

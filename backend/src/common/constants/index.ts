@@ -1,0 +1,14 @@
+export const ORDER_STATUS_TRANSITIONS: Record<string, string[]> = {
+  PENDING: ['CONFIRMED', 'CANCELLED'],
+  CONFIRMED: ['PROCESSING', 'CANCELLED'],
+  PROCESSING: ['SHIPPED'],
+  SHIPPED: ['DELIVERED'],
+  DELIVERED: ['REFUNDED'],
+  CANCELLED: [],
+  REFUNDED: [],
+};
+
+export const ROLES = {
+  ADMIN: 'ADMIN',
+  CUSTOMER: 'CUSTOMER',
+} as const;

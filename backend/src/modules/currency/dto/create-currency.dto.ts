@@ -10,7 +10,9 @@ export class CreateCurrencyDto {
   })
   @IsString()
   @Length(3, 3, { message: 'Currency code must be exactly 3 characters' })
-  @Matches(/^[A-Z]{3}$/, { message: 'Currency code must be 3 uppercase letters' })
+  @Matches(/^[A-Z]{3}$/, {
+    message: 'Currency code must be 3 uppercase letters',
+  })
   code!: string;
 
   @ApiProperty({ description: 'Currency name', example: 'US Dollar' })

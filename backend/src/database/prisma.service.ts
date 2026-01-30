@@ -41,13 +41,20 @@ function createSoftDeleteClient(baseClient: PrismaClient) {
         },
         async findUnique({ model, args, query }) {
           if (SOFT_DELETE_MODELS.has(model)) {
-            args.where = { ...args.where, deletedAt: null } as typeof args.where;
+            args.where = {
+              ...args.where,
+              deletedAt: null,
+            } as typeof args.where;
           }
           return query(args);
         },
         async delete({ model, args, query }) {
           if (SOFT_DELETE_MODELS.has(model)) {
-            return (query as unknown as (a: Record<string, unknown>) => Promise<unknown>)({
+            return (
+              query as unknown as (
+                a: Record<string, unknown>,
+              ) => Promise<unknown>
+            )({
               where: args.where,
               data: { deletedAt: new Date() },
             } as unknown as typeof args);
@@ -56,7 +63,11 @@ function createSoftDeleteClient(baseClient: PrismaClient) {
         },
         async deleteMany({ model, args, query }) {
           if (SOFT_DELETE_MODELS.has(model)) {
-            return (query as unknown as (a: Record<string, unknown>) => Promise<unknown>)({
+            return (
+              query as unknown as (
+                a: Record<string, unknown>,
+              ) => Promise<unknown>
+            )({
               where: args.where,
               data: { deletedAt: new Date() },
             } as unknown as typeof args);

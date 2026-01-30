@@ -1,20 +1,35 @@
-import { IsString, IsOptional, IsBoolean, MaxLength, MinLength } from 'class-validator';
+import {
+  IsString,
+  IsOptional,
+  IsBoolean,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateStockLocationDto {
-  @ApiProperty({ description: 'Name of the stock location', example: 'Main Warehouse' })
+  @ApiProperty({
+    description: 'Name of the stock location',
+    example: 'Main Warehouse',
+  })
   @IsString()
   @MinLength(1)
   @MaxLength(255)
   name: string;
 
-  @ApiProperty({ description: 'Unique code for the stock location', example: 'WH-001' })
+  @ApiProperty({
+    description: 'Unique code for the stock location',
+    example: 'WH-001',
+  })
   @IsString()
   @MinLength(1)
   @MaxLength(50)
   code: string;
 
-  @ApiPropertyOptional({ description: 'Address line 1', example: '123 Warehouse St' })
+  @ApiPropertyOptional({
+    description: 'Address line 1',
+    example: '123 Warehouse St',
+  })
   @IsOptional()
   @IsString()
   @MaxLength(255)
@@ -50,7 +65,10 @@ export class CreateStockLocationDto {
   @MaxLength(2)
   countryCode?: string;
 
-  @ApiPropertyOptional({ description: 'Whether the location is active', default: true })
+  @ApiPropertyOptional({
+    description: 'Whether the location is active',
+    default: true,
+  })
   @IsOptional()
   @IsBoolean()
   isActive?: boolean;

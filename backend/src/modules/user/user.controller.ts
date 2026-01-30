@@ -54,10 +54,7 @@ export class UserController {
   @Patch(':id')
   @ApiOperation({ summary: 'Update a user' })
   @ApiParam({ name: 'id', type: 'string', format: 'uuid' })
-  update(
-    @Param('id', ParseUUIDPipe) id: string,
-    @Body() dto: UpdateUserDto,
-  ) {
+  update(@Param('id', ParseUUIDPipe) id: string, @Body() dto: UpdateUserDto) {
     return this.userService.update(id, dto);
   }
 
