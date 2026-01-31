@@ -19,11 +19,6 @@ export class PriceCalculatorService {
     // Step a) Get variant base price
     const variant = await this.prisma.client.productVariant.findUnique({
       where: { id: variantId },
-      include: {
-        prices: {
-          where: { currencyCode },
-        },
-      },
     });
 
     if (!variant) {
@@ -32,11 +27,8 @@ export class PriceCalculatorService {
       );
     }
 
-    const basePrice = variant.prices.find(
-      (p: any) => p.currencyCode === currencyCode,
-    );
-
-    let bestAmount: number | null = basePrice ? Number(basePrice.amount) : null;
+    // Use variant base price as the starting point
+    let bestAmount: number | null = Number(variant.price);
     let bestSource = 'base';
 
     const now = new Date();

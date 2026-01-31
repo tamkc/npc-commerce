@@ -3,7 +3,7 @@ import {
   NotFoundException,
   BadRequestException,
 } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { Prisma } from '../../../generated/prisma/client.js';
 import Stripe from 'stripe';
 import { PrismaService } from '../../database/prisma.service.js';
 import { StripeService } from './stripe.service.js';
@@ -111,7 +111,7 @@ export class PaymentService {
       },
     });
 
-    // Calculate total refunded
+    // Calculate total refunded and update order payment status
     const totalRefunded = await this.prisma.client.refund.aggregate({
       where: { paymentId: payment.id },
       _sum: { amount: true },
@@ -120,10 +120,11 @@ export class PaymentService {
     const refundedAmount = totalRefunded._sum.amount ?? new Prisma.Decimal(0);
     const isFullyRefunded = refundedAmount.gte(payment.amount);
 
-    await this.prisma.client.payment.update({
-      where: { id: payment.id },
+    // Update the order's payment status (Order uses PaymentStatus enum with REFUNDED/PARTIALLY_REFUNDED)
+    await this.prisma.client.order.update({
+      where: { id: payment.orderId },
       data: {
-        status: isFullyRefunded ? 'REFUNDED' : 'PARTIALLY_REFUNDED',
+        paymentStatus: isFullyRefunded ? 'REFUNDED' : 'PARTIALLY_REFUNDED',
       },
     });
 

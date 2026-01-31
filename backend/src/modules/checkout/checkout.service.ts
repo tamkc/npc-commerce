@@ -3,7 +3,7 @@ import {
   BadRequestException,
   NotFoundException,
 } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { Prisma } from '../../../generated/prisma/client.js';
 import { PrismaService } from '../../database/prisma.service.js';
 import { CompleteCheckoutDto } from './dto/complete-checkout.dto.js';
 
@@ -19,7 +19,9 @@ export class CheckoutService {
         include: {
           items: {
             include: {
-              variant: true,
+              variant: {
+                include: { product: true },
+              },
             },
           },
         },
@@ -38,6 +40,11 @@ export class CheckoutService {
         throw new BadRequestException('Cart is empty');
       }
 
+      // Must have a customer for order creation
+      if (!cart.customerId) {
+        throw new BadRequestException('Cart must have a customer to checkout');
+      }
+
       // c) Calculate subtotal from cart items
       let subtotal = new Prisma.Decimal(0);
       for (const item of cart.items) {
@@ -53,31 +60,28 @@ export class CheckoutService {
           where: {
             code: cart.discountCode,
             isActive: true,
+            deletedAt: null,
             startsAt: { lte: new Date() },
             OR: [{ endsAt: null }, { endsAt: { gte: new Date() } }],
           },
         });
 
         if (promotion) {
-          promotionId = promotion.id;
+          // Check usage limit
+          const withinLimit =
+            promotion.usageLimit === null ||
+            promotion.usageCount < promotion.usageLimit;
 
-          if (promotion.type === 'PERCENTAGE') {
-            discountTotal = subtotal.mul(promotion.value).div(100);
-          } else if (promotion.type === 'FIXED') {
-            discountTotal = Prisma.Decimal.min(
-              new Prisma.Decimal(promotion.value),
-              subtotal,
-            );
-          }
+          if (withinLimit) {
+            promotionId = promotion.id;
 
-          // Check max uses
-          if (promotion.maxUses !== null) {
-            const usageCount = await tx.promotionUsage.count({
-              where: { promotionId: promotion.id },
-            });
-            if (usageCount >= promotion.maxUses) {
-              discountTotal = new Prisma.Decimal(0);
-              promotionId = null;
+            if (promotion.type === 'PERCENTAGE') {
+              discountTotal = subtotal.mul(promotion.value).div(100);
+            } else if (promotion.type === 'FIXED') {
+              discountTotal = Prisma.Decimal.min(
+                new Prisma.Decimal(promotion.value),
+                subtotal,
+              );
             }
           }
         }
@@ -85,7 +89,8 @@ export class CheckoutService {
 
       // e) Calculate tax (fixed 10% placeholder)
       const taxableAmount = subtotal.sub(discountTotal);
-      const taxTotal = taxableAmount.mul(new Prisma.Decimal('0.10'));
+      const taxRate = new Prisma.Decimal('0.10');
+      const taxTotal = taxableAmount.mul(taxRate);
 
       // f) Get shipping cost from shippingMethodId if provided
       let shippingTotal = new Prisma.Decimal(0);
@@ -106,44 +111,40 @@ export class CheckoutService {
         .add(taxTotal)
         .add(shippingTotal);
 
-      // Resolve email: prefer dto email, then cart email
+      // Resolve email
       const email = dto.email ?? cart.email;
+      if (!email) {
+        throw new BadRequestException('Email is required for checkout');
+      }
 
-      // Create shipping address
-      const shippingAddress = await tx.address.create({
-        data: {
-          firstName: dto.shippingAddress.firstName,
-          lastName: dto.shippingAddress.lastName,
-          addressLine1: dto.shippingAddress.addressLine1,
-          addressLine2: dto.shippingAddress.addressLine2,
-          city: dto.shippingAddress.city,
-          state: dto.shippingAddress.state,
-          postalCode: dto.shippingAddress.postalCode,
-          countryCode: dto.shippingAddress.countryCode,
-          phone: dto.shippingAddress.phone,
-        },
-      });
+      // Build address JSON snapshot
+      const shippingAddress = {
+        firstName: dto.shippingAddress.firstName,
+        lastName: dto.shippingAddress.lastName,
+        addressLine1: dto.shippingAddress.addressLine1,
+        addressLine2: dto.shippingAddress.addressLine2 ?? null,
+        city: dto.shippingAddress.city,
+        state: dto.shippingAddress.state ?? null,
+        postalCode: dto.shippingAddress.postalCode,
+        countryCode: dto.shippingAddress.countryCode,
+        phone: dto.shippingAddress.phone ?? null,
+      };
 
-      // Create billing address (or reuse shipping)
-      let billingAddressId = shippingAddress.id;
-      if (dto.billingAddress) {
-        const billingAddress = await tx.address.create({
-          data: {
+      const billingAddress = dto.billingAddress
+        ? {
             firstName: dto.billingAddress.firstName,
             lastName: dto.billingAddress.lastName,
             addressLine1: dto.billingAddress.addressLine1,
-            addressLine2: dto.billingAddress.addressLine2,
+            addressLine2: dto.billingAddress.addressLine2 ?? null,
             city: dto.billingAddress.city,
-            state: dto.billingAddress.state,
+            state: dto.billingAddress.state ?? null,
             postalCode: dto.billingAddress.postalCode,
             countryCode: dto.billingAddress.countryCode,
-            phone: dto.billingAddress.phone,
-          },
-        });
-        billingAddressId = billingAddress.id;
-      }
+            phone: dto.billingAddress.phone ?? null,
+          }
+        : null;
 
-      // h) Create Order
+      // h) Create Order (shippingAddress and billingAddress are Json fields)
       const order = await tx.order.create({
         data: {
           customerId: cart.customerId,
@@ -155,11 +156,10 @@ export class CheckoutService {
           discountTotal,
           total,
           status: 'PENDING',
-          paymentStatus: 'AWAITING',
+          paymentStatus: 'NOT_PAID',
           fulfillmentStatus: 'NOT_FULFILLED',
-          shippingAddressId: shippingAddress.id,
-          billingAddressId,
-          shippingMethodId: dto.shippingMethodId,
+          shippingAddress: shippingAddress as any,
+          billingAddress: billingAddress as any,
           regionId: cart.regionId,
           salesChannelId: cart.salesChannelId,
         },
@@ -168,18 +168,21 @@ export class CheckoutService {
       // i) Create OrderItems from cart items
       for (const item of cart.items) {
         const variant = item.variant;
-        const itemTax = item.total.mul(new Prisma.Decimal('0.10'));
+        const itemTaxAmount = item.total.mul(taxRate);
 
         await tx.orderItem.create({
           data: {
             orderId: order.id,
             variantId: item.variantId,
-            title: variant.title,
+            title: variant.product.title,
+            variantTitle: variant.title,
             sku: variant.sku,
             quantity: item.quantity,
             unitPrice: item.unitPrice,
+            taxRate: taxRate,
+            taxAmount: itemTaxAmount,
+            discountAmount: 0,
             total: item.total,
-            taxTotal: itemTax,
           },
         });
       }
@@ -192,6 +195,11 @@ export class CheckoutService {
             orderId: order.id,
             customerId: cart.customerId,
           },
+        });
+
+        await tx.promotion.update({
+          where: { id: promotionId },
+          data: { usageCount: { increment: 1 } },
         });
       }
 
@@ -213,8 +221,7 @@ export class CheckoutService {
         where: { id: order.id },
         include: {
           items: true,
-          shippingAddress: true,
-          billingAddress: true,
+          customer: { include: { user: true } },
         },
       });
     });
