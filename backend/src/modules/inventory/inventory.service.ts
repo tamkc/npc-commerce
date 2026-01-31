@@ -1,0 +1,96 @@
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { PrismaService } from '../../database/prisma.service.js';
+import { CreateInventoryLevelDto } from './dto/create-inventory-level.dto.js';
+import { UpdateInventoryLevelDto } from './dto/update-inventory-level.dto.js';
+import {
+  PaginationQueryDto,
+  PaginatedResult,
+} from '../../common/dto/pagination-query.dto.js';
+
+@Injectable()
+export class InventoryService {
+  constructor(private prisma: PrismaService) {}
+
+  async findAll(query: PaginationQueryDto): Promise<PaginatedResult<unknown>> {
+    const page = query.page ?? 1;
+    const limit = query.limit ?? 20;
+    const [data, total] = await Promise.all([
+      this.prisma.client.inventoryLevel.findMany({
+        skip: (page - 1) * limit,
+        take: limit,
+        include: { variant: true, stockLocation: true },
+        orderBy: { updatedAt: 'desc' },
+      }),
+      this.prisma.client.inventoryLevel.count(),
+    ]);
+    return {
+      data,
+      meta: { total, page, limit, totalPages: Math.ceil(total / limit) },
+    };
+  }
+
+  async findByVariant(variantId: string) {
+    return this.prisma.client.inventoryLevel.findMany({
+      where: { variantId },
+      include: { stockLocation: true },
+    });
+  }
+
+  async findByLocation(stockLocationId: string) {
+    return this.prisma.client.inventoryLevel.findMany({
+      where: { stockLocationId },
+      include: { variant: true },
+    });
+  }
+
+  async findById(id: string) {
+    const level = await this.prisma.client.inventoryLevel.findUnique({
+      where: { id },
+      include: { variant: true, stockLocation: true },
+    });
+    if (!level) throw new NotFoundException('Inventory level not found');
+    return level;
+  }
+
+  create(dto: CreateInventoryLevelDto) {
+    return this.prisma.client.inventoryLevel.create({
+      data: {
+        variantId: dto.variantId,
+        stockLocationId: dto.stockLocationId,
+        onHand: dto.onHand,
+        available: dto.onHand,
+        lowStockThreshold: dto.lowStockThreshold,
+      },
+      include: { variant: true, stockLocation: true },
+    });
+  }
+
+  async update(id: string, dto: UpdateInventoryLevelDto) {
+    const existing = await this.findById(id);
+    const newOnHand = dto.onHand;
+    const diff = newOnHand - existing.onHand;
+    return this.prisma.client.inventoryLevel.update({
+      where: { id },
+      data: {
+        onHand: newOnHand,
+        available: { increment: diff },
+        lowStockThreshold: dto.lowStockThreshold,
+      },
+      include: { variant: true, stockLocation: true },
+    });
+  }
+
+  async remove(id: string) {
+    await this.findById(id);
+    return this.prisma.client.inventoryLevel.delete({ where: { id } });
+  }
+
+  async getLowStock() {
+    return this.prisma.client.inventoryLevel.findMany({
+      where: {
+        lowStockThreshold: { not: null },
+      },
+      include: { variant: true, stockLocation: true },
+    });
+  }
+}
