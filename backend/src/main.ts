@@ -21,7 +21,10 @@ async function bootstrap() {
 
   // CORS
   app.enableCors({
-    origin: configService.get<string>('app.corsOrigins', 'http://localhost:3000'),
+    origin: configService.get<string>(
+      'app.corsOrigins',
+      'http://localhost:3000',
+    ),
     credentials: true,
   });
 
@@ -36,10 +39,7 @@ async function bootstrap() {
   );
 
   // Global filters
-  app.useGlobalFilters(
-    new HttpExceptionFilter(),
-    new PrismaExceptionFilter(),
-  );
+  app.useGlobalFilters(new HttpExceptionFilter(), new PrismaExceptionFilter());
 
   // Global interceptors
   app.useGlobalInterceptors(

@@ -34,10 +34,7 @@ export class VariantController {
 
   @Post()
   @ApiOperation({ summary: 'Create a new variant' })
-  create(
-    @Param('productId') productId: string,
-    @Body() dto: CreateVariantDto,
-  ) {
+  create(@Param('productId') productId: string, @Body() dto: CreateVariantDto) {
     dto.productId = productId;
     return this.variantService.create(dto);
   }

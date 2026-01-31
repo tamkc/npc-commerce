@@ -56,20 +56,14 @@ export class CartController {
   @Delete(':id/items/:itemId')
   @Public()
   @ApiOperation({ summary: 'Remove an item from the cart' })
-  async removeItem(
-    @Param('id') id: string,
-    @Param('itemId') itemId: string,
-  ) {
+  async removeItem(@Param('id') id: string, @Param('itemId') itemId: string) {
     return this.cartService.removeItem(id, itemId);
   }
 
   @Post(':id/discount')
   @Public()
   @ApiOperation({ summary: 'Apply a discount code to the cart' })
-  async applyDiscount(
-    @Param('id') id: string,
-    @Body() dto: ApplyDiscountDto,
-  ) {
+  async applyDiscount(@Param('id') id: string, @Body() dto: ApplyDiscountDto) {
     return this.cartService.applyDiscount(id, dto.code);
   }
 

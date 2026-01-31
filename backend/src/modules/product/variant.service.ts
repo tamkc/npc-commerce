@@ -64,12 +64,16 @@ export class VariantService {
         ...(dto.sku !== undefined && { sku: dto.sku }),
         ...(dto.barcode !== undefined && { barcode: dto.barcode }),
         ...(dto.price !== undefined && { price: dto.price }),
-        ...(dto.compareAtPrice !== undefined && { compareAtPrice: dto.compareAtPrice }),
+        ...(dto.compareAtPrice !== undefined && {
+          compareAtPrice: dto.compareAtPrice,
+        }),
         ...(dto.costPrice !== undefined && { costPrice: dto.costPrice }),
         ...(dto.weight !== undefined && { weight: dto.weight }),
         ...(dto.weightUnit !== undefined && { weightUnit: dto.weightUnit }),
         ...(dto.position !== undefined && { position: dto.position }),
-        ...(dto.manageInventory !== undefined && { manageInventory: dto.manageInventory }),
+        ...(dto.manageInventory !== undefined && {
+          manageInventory: dto.manageInventory,
+        }),
         ...(dto.metadata !== undefined && { metadata: dto.metadata }),
       },
       include: {

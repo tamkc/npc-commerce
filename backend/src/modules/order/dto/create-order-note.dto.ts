@@ -7,7 +7,10 @@ export class CreateOrderNoteDto {
   @IsNotEmpty()
   content!: string;
 
-  @ApiPropertyOptional({ description: 'Whether the note is private (admin-only)', default: true })
+  @ApiPropertyOptional({
+    description: 'Whether the note is private (admin-only)',
+    default: true,
+  })
   @IsOptional()
   @IsBoolean()
   isPrivate?: boolean = true;

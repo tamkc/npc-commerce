@@ -57,7 +57,11 @@ export class AuthController {
     @CurrentUser() user: JwtPayload,
     @Body() dto: ChangePasswordDto,
   ) {
-    return this.authService.changePassword(user.sub, dto.oldPassword, dto.newPassword);
+    return this.authService.changePassword(
+      user.sub,
+      dto.oldPassword,
+      dto.newPassword,
+    );
   }
 
   @Get('me')

@@ -66,13 +66,19 @@ export class ProductController {
 
   @Post(':id/categories')
   @ApiOperation({ summary: 'Add a product to a category' })
-  addToCategory(@Param('id') id: string, @Body('categoryId') categoryId: string) {
+  addToCategory(
+    @Param('id') id: string,
+    @Body('categoryId') categoryId: string,
+  ) {
     return this.productService.addToCategory(id, categoryId);
   }
 
   @Delete(':id/categories/:categoryId')
   @ApiOperation({ summary: 'Remove a product from a category' })
-  removeFromCategory(@Param('id') id: string, @Param('categoryId') categoryId: string) {
+  removeFromCategory(
+    @Param('id') id: string,
+    @Param('categoryId') categoryId: string,
+  ) {
     return this.productService.removeFromCategory(id, categoryId);
   }
 }

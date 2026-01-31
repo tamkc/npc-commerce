@@ -3,7 +3,9 @@ import { ApiPropertyOptional } from '@nestjs/swagger';
 import { PaginationQueryDto } from '../../../common/dto/pagination-query.dto.js';
 
 export class ProductQueryDto extends PaginationQueryDto {
-  @ApiPropertyOptional({ description: 'Filter by product status (DRAFT, PUBLISHED, ARCHIVED)' })
+  @ApiPropertyOptional({
+    description: 'Filter by product status (DRAFT, PUBLISHED, ARCHIVED)',
+  })
   @IsOptional()
   @IsString()
   status?: string;

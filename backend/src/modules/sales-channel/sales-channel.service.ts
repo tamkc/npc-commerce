@@ -8,7 +8,9 @@ export class SalesChannelService {
   constructor(private prisma: PrismaService) {}
 
   findAll() {
-    return this.prisma.client.salesChannel.findMany({ orderBy: { name: 'asc' } });
+    return this.prisma.client.salesChannel.findMany({
+      orderBy: { name: 'asc' },
+    });
   }
 
   async findById(id: string) {
@@ -21,12 +23,21 @@ export class SalesChannelService {
   }
 
   create(dto: CreateSalesChannelDto) {
-    return this.prisma.client.salesChannel.create({ data: dto as Parameters<typeof this.prisma.client.salesChannel.create>[0]['data'] });
+    return this.prisma.client.salesChannel.create({
+      data: dto as Parameters<
+        typeof this.prisma.client.salesChannel.create
+      >[0]['data'],
+    });
   }
 
   async update(id: string, dto: UpdateSalesChannelDto) {
     await this.findById(id);
-    return this.prisma.client.salesChannel.update({ where: { id }, data: dto as Parameters<typeof this.prisma.client.salesChannel.update>[0]['data'] });
+    return this.prisma.client.salesChannel.update({
+      where: { id },
+      data: dto as Parameters<
+        typeof this.prisma.client.salesChannel.update
+      >[0]['data'],
+    });
   }
 
   async remove(id: string) {
@@ -37,7 +48,10 @@ export class SalesChannelService {
   async addProducts(channelId: string, productIds: string[]) {
     await this.findById(channelId);
     await this.prisma.client.productSalesChannel.createMany({
-      data: productIds.map((pid) => ({ productId: pid, salesChannelId: channelId })),
+      data: productIds.map((pid) => ({
+        productId: pid,
+        salesChannelId: channelId,
+      })),
       skipDuplicates: true,
     });
     return this.findById(channelId);
@@ -45,7 +59,9 @@ export class SalesChannelService {
 
   async removeProduct(channelId: string, productId: string) {
     await this.prisma.client.productSalesChannel.delete({
-      where: { productId_salesChannelId: { productId, salesChannelId: channelId } },
+      where: {
+        productId_salesChannelId: { productId, salesChannelId: channelId },
+      },
     });
   }
 }

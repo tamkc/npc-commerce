@@ -1,11 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import {
-  IsString,
-  IsNumber,
-  IsOptional,
-  IsInt,
-  Min,
-} from 'class-validator';
+import { IsString, IsNumber, IsOptional, IsInt, Min } from 'class-validator';
 
 export class SetPriceDto {
   @ApiProperty({ description: 'ID of the price list' })

@@ -20,10 +20,7 @@ export class ApiKeyController {
 
   @Post()
   @ApiOperation({ summary: 'Generate new API key (raw key returned once)' })
-  generate(
-    @CurrentUser() user: { sub: string },
-    @Body() dto: CreateApiKeyDto,
-  ) {
+  generate(@CurrentUser() user: { sub: string }, @Body() dto: CreateApiKeyDto) {
     return this.apiKeyService.generate(user.sub, dto);
   }
 

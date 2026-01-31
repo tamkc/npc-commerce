@@ -52,7 +52,9 @@ export class StockReservationService {
         where: { id: reservationId },
       });
       if (!reservation || reservation.releasedAt) {
-        throw new NotFoundException('Reservation not found or already released');
+        throw new NotFoundException(
+          'Reservation not found or already released',
+        );
       }
 
       await tx.inventoryLevel.update({
@@ -81,7 +83,9 @@ export class StockReservationService {
         where: { id: reservationId },
       });
       if (!reservation || reservation.releasedAt) {
-        throw new NotFoundException('Reservation not found or already released');
+        throw new NotFoundException(
+          'Reservation not found or already released',
+        );
       }
 
       await tx.inventoryLevel.update({

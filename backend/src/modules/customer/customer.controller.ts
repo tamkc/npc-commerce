@@ -177,8 +177,7 @@ export class CustomerAddressController {
     customerId: string,
     addressId: string,
   ): Promise<void> {
-    const addresses =
-      await this.customerService.listAddresses(customerId);
+    const addresses = await this.customerService.listAddresses(customerId);
     const owned = addresses.some((a) => a.id === addressId);
     if (!owned) {
       throw new NotFoundException(

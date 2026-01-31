@@ -71,9 +71,7 @@ export class PromotionService {
     });
 
     if (!promotion) {
-      throw new NotFoundException(
-        `Promotion with code "${code}" not found`,
-      );
+      throw new NotFoundException(`Promotion with code "${code}" not found`);
     }
 
     return promotion;
@@ -189,11 +187,7 @@ export class PromotionService {
     });
   }
 
-  async recordUsage(
-    promotionId: string,
-    customerId: string,
-    orderId: string,
-  ) {
+  async recordUsage(promotionId: string, customerId: string, orderId: string) {
     return this.prisma.client.$transaction(async (tx) => {
       await tx.promotionUsage.create({
         data: {

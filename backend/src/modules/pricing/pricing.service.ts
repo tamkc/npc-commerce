@@ -129,9 +129,7 @@ export class PricingService {
     });
 
     if (!price) {
-      throw new NotFoundException(
-        `Price entry with ID "${priceId}" not found`,
-      );
+      throw new NotFoundException(`Price entry with ID "${priceId}" not found`);
     }
 
     return this.prisma.client.priceListPrice.delete({

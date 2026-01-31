@@ -36,9 +36,7 @@ export class PriceCalculatorService {
       (p: any) => p.currencyCode === currencyCode,
     );
 
-    let bestAmount: number | null = basePrice
-      ? Number(basePrice.amount)
-      : null;
+    let bestAmount: number | null = basePrice ? Number(basePrice.amount) : null;
     let bestSource = 'base';
 
     const now = new Date();

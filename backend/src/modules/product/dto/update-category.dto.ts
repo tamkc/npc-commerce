@@ -1,9 +1,4 @@
-import {
-  IsString,
-  IsOptional,
-  IsInt,
-  IsBoolean,
-} from 'class-validator';
+import { IsString, IsOptional, IsInt, IsBoolean } from 'class-validator';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 
 export class UpdateCategoryDto {
@@ -17,7 +12,9 @@ export class UpdateCategoryDto {
   @IsString()
   description?: string;
 
-  @ApiPropertyOptional({ description: 'Parent category ID for nested categories' })
+  @ApiPropertyOptional({
+    description: 'Parent category ID for nested categories',
+  })
   @IsOptional()
   @IsString()
   parentId?: string;

@@ -2,7 +2,10 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../../database/prisma.service.js';
 import { CreateStockLocationDto } from './dto/create-stock-location.dto.js';
 import { UpdateStockLocationDto } from './dto/update-stock-location.dto.js';
-import { PaginationQueryDto, PaginatedResult } from '../../common/dto/pagination-query.dto.js';
+import {
+  PaginationQueryDto,
+  PaginatedResult,
+} from '../../common/dto/pagination-query.dto.js';
 
 @Injectable()
 export class StockLocationService {
@@ -19,7 +22,10 @@ export class StockLocationService {
       }),
       this.prisma.client.stockLocation.count(),
     ]);
-    return { data, meta: { total, page, limit, totalPages: Math.ceil(total / limit) } };
+    return {
+      data,
+      meta: { total, page, limit, totalPages: Math.ceil(total / limit) },
+    };
   }
 
   async findById(id: string) {
@@ -32,12 +38,21 @@ export class StockLocationService {
   }
 
   create(dto: CreateStockLocationDto) {
-    return this.prisma.client.stockLocation.create({ data: dto as Parameters<typeof this.prisma.client.stockLocation.create>[0]['data'] });
+    return this.prisma.client.stockLocation.create({
+      data: dto as Parameters<
+        typeof this.prisma.client.stockLocation.create
+      >[0]['data'],
+    });
   }
 
   async update(id: string, dto: UpdateStockLocationDto) {
     await this.findById(id);
-    return this.prisma.client.stockLocation.update({ where: { id }, data: dto as Parameters<typeof this.prisma.client.stockLocation.update>[0]['data'] });
+    return this.prisma.client.stockLocation.update({
+      where: { id },
+      data: dto as Parameters<
+        typeof this.prisma.client.stockLocation.update
+      >[0]['data'],
+    });
   }
 
   async remove(id: string) {

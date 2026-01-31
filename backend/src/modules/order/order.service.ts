@@ -16,7 +16,15 @@ export class OrderService {
   ) {}
 
   async findAll(query: OrderQueryDto): Promise<PaginatedResult<any>> {
-    const { page = 1, limit = 20, status, customerId, email, dateFrom, dateTo } = query;
+    const {
+      page = 1,
+      limit = 20,
+      status,
+      customerId,
+      email,
+      dateFrom,
+      dateTo,
+    } = query;
     const skip = (page - 1) * limit;
 
     const where: Record<string, unknown> = {};
@@ -120,7 +128,11 @@ export class OrderService {
     return this.orderLifecycle.transition(id, 'CANCELLED');
   }
 
-  async addNote(orderId: string, authorId: string | null, dto: CreateOrderNoteDto) {
+  async addNote(
+    orderId: string,
+    authorId: string | null,
+    dto: CreateOrderNoteDto,
+  ) {
     const order = await this.prisma.client.order.findUnique({
       where: { id: orderId },
     });

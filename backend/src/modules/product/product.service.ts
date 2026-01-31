@@ -11,7 +11,15 @@ export class ProductService {
   constructor(private readonly prisma: PrismaService) {}
 
   async findAll(query: ProductQueryDto): Promise<PaginatedResult<any>> {
-    const { page = 1, limit = 20, status, categoryId, salesChannelId, search, tag } = query;
+    const {
+      page = 1,
+      limit = 20,
+      status,
+      categoryId,
+      salesChannelId,
+      search,
+      tag,
+    } = query;
     const skip = (page - 1) * limit;
 
     const where: any = {};

@@ -18,12 +18,16 @@ export class OrderQueryDto extends PaginationQueryDto {
   @IsString()
   email?: string;
 
-  @ApiPropertyOptional({ description: 'Filter orders from this date (ISO 8601)' })
+  @ApiPropertyOptional({
+    description: 'Filter orders from this date (ISO 8601)',
+  })
   @IsOptional()
   @IsDateString()
   dateFrom?: string;
 
-  @ApiPropertyOptional({ description: 'Filter orders until this date (ISO 8601)' })
+  @ApiPropertyOptional({
+    description: 'Filter orders until this date (ISO 8601)',
+  })
   @IsOptional()
   @IsDateString()
   dateTo?: string;

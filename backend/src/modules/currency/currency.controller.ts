@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Patch, Delete, Param, Body, Put } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Patch,
+  Delete,
+  Param,
+  Body,
+  Put,
+} from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { CurrencyService } from './currency.service.js';
 import { CreateCurrencyDto } from './dto/create-currency.dto.js';
@@ -15,18 +24,24 @@ export class CurrencyController {
   @Public()
   @Get('currencies')
   @ApiOperation({ summary: 'List all currencies' })
-  findAll() { return this.currencyService.findAll(); }
+  findAll() {
+    return this.currencyService.findAll();
+  }
 
   @Public()
   @Get('currencies/:code')
   @ApiOperation({ summary: 'Get currency by code' })
-  findByCode(@Param('code') code: string) { return this.currencyService.findByCode(code); }
+  findByCode(@Param('code') code: string) {
+    return this.currencyService.findByCode(code);
+  }
 
   @Roles('ADMIN')
   @Post('admin/currencies')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Create currency' })
-  create(@Body() dto: CreateCurrencyDto) { return this.currencyService.create(dto); }
+  create(@Body() dto: CreateCurrencyDto) {
+    return this.currencyService.create(dto);
+  }
 
   @Roles('ADMIN')
   @Patch('admin/currencies/:code')
@@ -40,17 +55,23 @@ export class CurrencyController {
   @Delete('admin/currencies/:code')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Delete currency' })
-  remove(@Param('code') code: string) { return this.currencyService.remove(code); }
+  remove(@Param('code') code: string) {
+    return this.currencyService.remove(code);
+  }
 
   @Roles('ADMIN')
   @Get('admin/exchange-rates')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'List exchange rates' })
-  listRates() { return this.currencyService.listExchangeRates(); }
+  listRates() {
+    return this.currencyService.listExchangeRates();
+  }
 
   @Roles('ADMIN')
   @Put('admin/exchange-rates')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Upsert exchange rate' })
-  upsertRate(@Body() dto: UpsertExchangeRateDto) { return this.currencyService.upsertExchangeRate(dto); }
+  upsertRate(@Body() dto: UpsertExchangeRateDto) {
+    return this.currencyService.upsertExchangeRate(dto);
+  }
 }

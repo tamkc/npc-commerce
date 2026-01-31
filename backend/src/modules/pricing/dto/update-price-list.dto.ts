@@ -1,14 +1,6 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import {
-  IsString,
-  IsOptional,
-  IsEnum,
-  IsDateString,
-} from 'class-validator';
-import {
-  PriceListType,
-  PriceListStatus,
-} from './create-price-list.dto.js';
+import { IsString, IsOptional, IsEnum, IsDateString } from 'class-validator';
+import { PriceListType, PriceListStatus } from './create-price-list.dto.js';
 
 export class UpdatePriceListDto {
   @ApiPropertyOptional({ description: 'Name of the price list' })

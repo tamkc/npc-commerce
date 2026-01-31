@@ -57,17 +57,17 @@ export class PaymentService {
   async handleWebhookEvent(event: Stripe.Event) {
     switch (event.type) {
       case 'payment_intent.succeeded': {
-        const paymentIntent = event.data.object as Stripe.PaymentIntent;
+        const paymentIntent = event.data.object;
         await this.handlePaymentSucceeded(paymentIntent);
         break;
       }
       case 'payment_intent.payment_failed': {
-        const paymentIntent = event.data.object as Stripe.PaymentIntent;
+        const paymentIntent = event.data.object;
         await this.handlePaymentFailed(paymentIntent);
         break;
       }
       case 'payment_intent.canceled': {
-        const paymentIntent = event.data.object as Stripe.PaymentIntent;
+        const paymentIntent = event.data.object;
         await this.handlePaymentCanceled(paymentIntent);
         break;
       }
@@ -83,9 +83,7 @@ export class PaymentService {
     });
 
     if (!payment) {
-      throw new NotFoundException(
-        `Payment with ID ${dto.paymentId} not found`,
-      );
+      throw new NotFoundException(`Payment with ID ${dto.paymentId} not found`);
     }
 
     if (!payment.externalId) {
@@ -95,9 +93,7 @@ export class PaymentService {
     }
 
     if (payment.status !== 'CAPTURED') {
-      throw new BadRequestException(
-        'Can only refund captured payments',
-      );
+      throw new BadRequestException('Can only refund captured payments');
     }
 
     const stripeRefund = await this.stripeService.createRefund(

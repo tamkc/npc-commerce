@@ -1,4 +1,12 @@
-import { IsString, IsNumber, IsOptional, IsBoolean, IsObject, Min, IsNotEmpty } from 'class-validator';
+import {
+  IsString,
+  IsNumber,
+  IsOptional,
+  IsBoolean,
+  IsObject,
+  Min,
+  IsNotEmpty,
+} from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateShippingMethodDto {
@@ -27,7 +35,10 @@ export class CreateShippingMethodDto {
   @IsNumber()
   maxOrderAmount?: number;
 
-  @ApiPropertyOptional({ description: 'Whether the shipping method is active', default: true })
+  @ApiPropertyOptional({
+    description: 'Whether the shipping method is active',
+    default: true,
+  })
   @IsOptional()
   @IsBoolean()
   isActive?: boolean;

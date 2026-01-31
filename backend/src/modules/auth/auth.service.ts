@@ -7,7 +7,10 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../../database/prisma.service.js';
-import { hashPassword, comparePasswords } from '../../common/utils/hash.util.js';
+import {
+  hashPassword,
+  comparePasswords,
+} from '../../common/utils/hash.util.js';
 import { RegisterDto } from './dto/register.dto.js';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -47,13 +50,20 @@ export class AuthService {
       },
     });
 
-    const tokens = await this.generateTokens({ sub: user.id, email: user.email, role: user.role });
+    const tokens = await this.generateTokens({
+      sub: user.id,
+      email: user.email,
+      role: user.role,
+    });
     await this.storeRefreshToken(user.id, tokens.refreshToken);
 
     return { ...tokens, userId: user.id };
   }
 
-  async validateUser(email: string, password: string): Promise<{ id: string; email: string; role: string } | null> {
+  async validateUser(
+    email: string,
+    password: string,
+  ): Promise<{ id: string; email: string; role: string } | null> {
     const user = await this.prisma.client.user.findUnique({ where: { email } });
     if (!user || !user.isActive) return null;
 
@@ -63,8 +73,16 @@ export class AuthService {
     return { id: user.id, email: user.email, role: user.role };
   }
 
-  async login(user: { id: string; email: string; role: string }): Promise<TokenPair> {
-    const tokens = await this.generateTokens({ sub: user.id, email: user.email, role: user.role });
+  async login(user: {
+    id: string;
+    email: string;
+    role: string;
+  }): Promise<TokenPair> {
+    const tokens = await this.generateTokens({
+      sub: user.id,
+      email: user.email,
+      role: user.role,
+    });
 
     await this.prisma.client.user.update({
       where: { id: user.id },
@@ -108,8 +126,14 @@ export class AuthService {
     });
   }
 
-  async changePassword(userId: string, oldPassword: string, newPassword: string): Promise<void> {
-    const user = await this.prisma.client.user.findUnique({ where: { id: userId } });
+  async changePassword(
+    userId: string,
+    oldPassword: string,
+    newPassword: string,
+  ): Promise<void> {
+    const user = await this.prisma.client.user.findUnique({
+      where: { id: userId },
+    });
     if (!user) throw new UnauthorizedException('User not found');
 
     const valid = await comparePasswords(oldPassword, user.passwordHash);
@@ -122,7 +146,11 @@ export class AuthService {
     });
   }
 
-  private async generateTokens(payload: { sub: string; email: string; role: string }): Promise<TokenPair> {
+  private async generateTokens(payload: {
+    sub: string;
+    email: string;
+    role: string;
+  }): Promise<TokenPair> {
     const accessToken = this.jwtService.sign(payload, {
       expiresIn: this.configService.get<string>('jwt.accessExpiresIn', '15m'),
     });
@@ -132,8 +160,14 @@ export class AuthService {
     return { accessToken, refreshToken };
   }
 
-  private async storeRefreshToken(userId: string, token: string): Promise<void> {
-    const expiresIn = this.configService.get<string>('jwt.refreshExpiresIn', '7d');
+  private async storeRefreshToken(
+    userId: string,
+    token: string,
+  ): Promise<void> {
+    const expiresIn = this.configService.get<string>(
+      'jwt.refreshExpiresIn',
+      '7d',
+    );
     const ms = this.parseDuration(expiresIn);
     const expiresAt = new Date(Date.now() + ms);
 
@@ -147,11 +181,16 @@ export class AuthService {
     if (!match) return 7 * 24 * 60 * 60 * 1000;
     const val = parseInt(match[1], 10);
     switch (match[2]) {
-      case 's': return val * 1000;
-      case 'm': return val * 60 * 1000;
-      case 'h': return val * 60 * 60 * 1000;
-      case 'd': return val * 24 * 60 * 60 * 1000;
-      default: return 7 * 24 * 60 * 60 * 1000;
+      case 's':
+        return val * 1000;
+      case 'm':
+        return val * 60 * 1000;
+      case 'h':
+        return val * 60 * 60 * 1000;
+      case 'd':
+        return val * 24 * 60 * 60 * 1000;
+      default:
+        return 7 * 24 * 60 * 60 * 1000;
     }
   }
 }

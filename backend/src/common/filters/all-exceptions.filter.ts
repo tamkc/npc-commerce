@@ -33,7 +33,11 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
     response.status(status).json({
       statusCode: status,
-      message: typeof message === 'string' ? message : (message as Record<string, unknown>).message || 'Internal server error',
+      message:
+        typeof message === 'string'
+          ? message
+          : (message as Record<string, unknown>).message ||
+            'Internal server error',
       error: 'Internal Server Error',
     });
   }

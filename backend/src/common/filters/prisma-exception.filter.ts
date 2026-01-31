@@ -12,7 +12,10 @@ import { Response } from 'express';
 export class PrismaExceptionFilter implements ExceptionFilter {
   private readonly logger = new Logger(PrismaExceptionFilter.name);
 
-  catch(exception: Prisma.PrismaClientKnownRequestError, host: ArgumentsHost): void {
+  catch(
+    exception: Prisma.PrismaClientKnownRequestError,
+    host: ArgumentsHost,
+  ): void {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
 
@@ -35,7 +38,9 @@ export class PrismaExceptionFilter implements ExceptionFilter {
       default:
         status = HttpStatus.INTERNAL_SERVER_ERROR;
         message = 'Database error';
-        this.logger.error(`Prisma error ${exception.code}: ${exception.message}`);
+        this.logger.error(
+          `Prisma error ${exception.code}: ${exception.message}`,
+        );
     }
 
     response.status(status).json({

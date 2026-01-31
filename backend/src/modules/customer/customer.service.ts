@@ -144,9 +144,7 @@ export class CustomerService {
     });
 
     if (!customer) {
-      throw new NotFoundException(
-        `Customer for user ID "${userId}" not found`,
-      );
+      throw new NotFoundException(`Customer for user ID "${userId}" not found`);
     }
 
     return customer as unknown as Customer;

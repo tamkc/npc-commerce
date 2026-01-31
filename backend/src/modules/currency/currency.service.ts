@@ -13,7 +13,9 @@ export class CurrencyService {
   }
 
   async findByCode(code: string) {
-    const currency = await this.prisma.client.currency.findUnique({ where: { code } });
+    const currency = await this.prisma.client.currency.findUnique({
+      where: { code },
+    });
     if (!currency) throw new NotFoundException('Currency not found');
     return currency;
   }

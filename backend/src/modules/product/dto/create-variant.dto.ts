@@ -33,7 +33,9 @@ export class CreateVariantDto {
   @Min(0)
   price!: number;
 
-  @ApiPropertyOptional({ description: 'Compare-at price for showing discounts' })
+  @ApiPropertyOptional({
+    description: 'Compare-at price for showing discounts',
+  })
   @IsOptional()
   @IsNumber()
   @Min(0)
@@ -61,7 +63,9 @@ export class CreateVariantDto {
   @IsInt()
   position?: number;
 
-  @ApiPropertyOptional({ description: 'Whether inventory is managed for this variant' })
+  @ApiPropertyOptional({
+    description: 'Whether inventory is managed for this variant',
+  })
   @IsOptional()
   @IsBoolean()
   manageInventory?: boolean;

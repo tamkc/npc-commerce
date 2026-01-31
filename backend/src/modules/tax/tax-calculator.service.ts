@@ -12,7 +12,10 @@ export interface TaxCalculation {
 export class TaxCalculatorService {
   constructor(private prisma: PrismaService) {}
 
-  async calculateTax(amount: Decimal, regionId: string): Promise<TaxCalculation> {
+  async calculateTax(
+    amount: Decimal,
+    regionId: string,
+  ): Promise<TaxCalculation> {
     const defaultRate = await this.prisma.client.taxRate.findFirst({
       where: { regionId, isDefault: true },
     });

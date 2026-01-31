@@ -93,7 +93,9 @@ export class InventoryController {
   }
 
   @Post('reservations/:id/confirm')
-  @ApiOperation({ summary: 'Confirm a stock reservation (deduct from on-hand)' })
+  @ApiOperation({
+    summary: 'Confirm a stock reservation (deduct from on-hand)',
+  })
   confirm(@Param('id') id: string) {
     return this.reservationService.confirm(id);
   }

@@ -17,7 +17,12 @@ export class RegionService {
   async findById(id: string) {
     const region = await this.prisma.client.region.findUnique({
       where: { id },
-      include: { currency: true, countries: true, taxRates: true, shippingMethods: true },
+      include: {
+        currency: true,
+        countries: true,
+        taxRates: true,
+        shippingMethods: true,
+      },
     });
     if (!region) throw new NotFoundException('Region not found');
     return region;
@@ -29,7 +34,11 @@ export class RegionService {
       data: {
         ...data,
         countries: countryCodes?.length
-          ? { createMany: { data: countryCodes.map((c) => ({ countryCode: c })) } }
+          ? {
+              createMany: {
+                data: countryCodes.map((c) => ({ countryCode: c })),
+              },
+            }
           : undefined,
       },
       include: { currency: true, countries: true },

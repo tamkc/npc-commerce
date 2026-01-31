@@ -23,7 +23,9 @@ export class CreateProductDto {
   @IsString()
   description?: string;
 
-  @ApiPropertyOptional({ description: 'Product handle/slug (auto-generated if not provided)' })
+  @ApiPropertyOptional({
+    description: 'Product handle/slug (auto-generated if not provided)',
+  })
   @IsOptional()
   @IsString()
   handle?: string;

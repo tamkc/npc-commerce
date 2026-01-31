@@ -110,7 +110,7 @@ export class PromotionEngineService {
 
     switch (promotion.type) {
       case 'PERCENTAGE':
-        return subtotal * value / 100;
+        return (subtotal * value) / 100;
 
       case 'FIXED':
         return value;

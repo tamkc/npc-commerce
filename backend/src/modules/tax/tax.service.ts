@@ -16,18 +16,28 @@ export class TaxService {
   }
 
   async findById(id: string) {
-    const rate = await this.prisma.client.taxRate.findUnique({ where: { id }, include: { region: true } });
+    const rate = await this.prisma.client.taxRate.findUnique({
+      where: { id },
+      include: { region: true },
+    });
     if (!rate) throw new NotFoundException('Tax rate not found');
     return rate;
   }
 
   create(dto: CreateTaxRateDto) {
-    return this.prisma.client.taxRate.create({ data: dto, include: { region: true } });
+    return this.prisma.client.taxRate.create({
+      data: dto,
+      include: { region: true },
+    });
   }
 
   async update(id: string, dto: UpdateTaxRateDto) {
     await this.findById(id);
-    return this.prisma.client.taxRate.update({ where: { id }, data: dto, include: { region: true } });
+    return this.prisma.client.taxRate.update({
+      where: { id },
+      data: dto,
+      include: { region: true },
+    });
   }
 
   async remove(id: string) {

@@ -5,7 +5,10 @@ import { OrderQueryDto } from './dto/order-query.dto.js';
 import { UpdateOrderStatusDto } from './dto/update-order-status.dto.js';
 import { CreateOrderNoteDto } from './dto/create-order-note.dto.js';
 import { Roles } from '../../common/decorators/roles.decorator.js';
-import { CurrentUser, JwtPayload } from '../../common/decorators/current-user.decorator.js';
+import {
+  CurrentUser,
+  JwtPayload,
+} from '../../common/decorators/current-user.decorator.js';
 
 @ApiTags('Orders (Admin)')
 @ApiBearerAuth()
