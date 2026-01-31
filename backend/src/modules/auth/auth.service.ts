@@ -152,7 +152,10 @@ export class AuthService {
     role: string;
   }): TokenPair {
     const accessToken = this.jwtService.sign(payload as any, {
-      expiresIn: this.configService.get<string>('jwt.accessExpiresIn', '15m') as any,
+      expiresIn: this.configService.get<string>(
+        'jwt.accessExpiresIn',
+        '15m',
+      ) as any,
     });
 
     const refreshToken = uuidv4();
