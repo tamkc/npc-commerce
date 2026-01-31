@@ -6,10 +6,14 @@ import {
 } from '../../common/dto/pagination-query.dto.js';
 import { CreatePromotionDto } from './dto/create-promotion.dto.js';
 import { UpdatePromotionDto } from './dto/update-promotion.dto.js';
+import { CacheService } from '../../common/cache/cache.service.js';
 
 @Injectable()
 export class PromotionService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly cache: CacheService,
+  ) {}
 
   async findAll(query: PaginationQueryDto): Promise<PaginatedResult<any>> {
     const { page = 1, limit = 20 } = query;
@@ -80,7 +84,7 @@ export class PromotionService {
   async create(dto: CreatePromotionDto) {
     const { conditions, ...promotionData } = dto;
 
-    return this.prisma.client.$transaction(async (tx) => {
+    const created = await this.prisma.client.$transaction(async (tx) => {
       const promotion = await tx.promotion.create({
         data: {
           code: promotionData.code,
@@ -120,6 +124,9 @@ export class PromotionService {
         },
       });
     });
+
+    await this.invalidatePromotionCache();
+    return created;
   }
 
   async update(id: string, dto: UpdatePromotionDto) {
@@ -127,7 +134,7 @@ export class PromotionService {
 
     const { conditions, ...promotionData } = dto;
 
-    return this.prisma.client.$transaction(async (tx) => {
+    const updated = await this.prisma.client.$transaction(async (tx) => {
       await tx.promotion.update({
         where: { id },
         data: {
@@ -176,15 +183,21 @@ export class PromotionService {
         },
       });
     });
+
+    await this.invalidatePromotionCache();
+    return updated;
   }
 
   async remove(id: string) {
     await this.findById(id);
 
-    return this.prisma.client.promotion.update({
+    const result = await this.prisma.client.promotion.update({
       where: { id },
       data: { deletedAt: new Date() },
     });
+
+    await this.invalidatePromotionCache();
+    return result;
   }
 
   async recordUsage(promotionId: string, customerId: string, orderId: string) {
@@ -204,5 +217,9 @@ export class PromotionService {
         },
       });
     });
+  }
+
+  private async invalidatePromotionCache(): Promise<void> {
+    await this.cache.delByPrefix('promotion:');
   }
 }

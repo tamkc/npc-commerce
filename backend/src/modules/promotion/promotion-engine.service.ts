@@ -1,9 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../database/prisma.service.js';
+import { CacheService } from '../../common/cache/cache.service.js';
+import { CacheKeys, CacheTTL } from '../../common/cache/cache-keys.js';
 
 @Injectable()
 export class PromotionEngineService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly cache: CacheService,
+  ) {}
 
   async validateCode(
     code: string,
@@ -78,28 +83,38 @@ export class PromotionEngineService {
   }
 
   async getAutomaticPromotions(orderAmount: number): Promise<any[]> {
+    const cacheKey = `${CacheKeys.PROMOTIONS_ACTIVE}:auto`;
+    const cached = await this.cache.get<any[]>(cacheKey);
+
+    // If cached, filter by orderAmount client-side (the full list is small)
+    if (cached) {
+      return cached.filter(
+        (p: any) =>
+          p.minOrderAmount === null || Number(p.minOrderAmount) <= orderAmount,
+      );
+    }
+
     const now = new Date();
 
-    return this.prisma.client.promotion.findMany({
+    const promotions = await this.prisma.client.promotion.findMany({
       where: {
         isAutomatic: true,
         isActive: true,
         deletedAt: null,
         startsAt: { lte: now },
         OR: [{ endsAt: null }, { endsAt: { gte: now } }],
-        AND: [
-          {
-            OR: [
-              { minOrderAmount: null },
-              { minOrderAmount: { lte: orderAmount } },
-            ],
-          },
-        ],
       },
       include: {
         conditions: true,
       },
     });
+
+    await this.cache.set(cacheKey, promotions, CacheTTL.PROMOTION);
+
+    return promotions.filter(
+      (p) =>
+        p.minOrderAmount === null || Number(p.minOrderAmount) <= orderAmount,
+    );
   }
 
   calculateDiscount(

@@ -5,10 +5,15 @@ import { UpdateProductDto } from './dto/update-product.dto.js';
 import { ProductQueryDto } from './dto/product-query.dto.js';
 import { PaginatedResult } from '../../common/dto/pagination-query.dto.js';
 import { generateSlug } from '../../common/utils/slug.util.js';
+import { CacheService } from '../../common/cache/cache.service.js';
+import { CacheKeys, CacheTTL } from '../../common/cache/cache-keys.js';
 
 @Injectable()
 export class ProductService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly cache: CacheService,
+  ) {}
 
   async findAll(query: ProductQueryDto): Promise<PaginatedResult<any>> {
     const {
@@ -20,6 +25,11 @@ export class ProductService {
       search,
       tag,
     } = query;
+
+    const cacheKey = `${CacheKeys.PRODUCT_LIST}:${JSON.stringify({ page, limit, status, categoryId, salesChannelId, search, tag })}`;
+    const cached = await this.cache.get<PaginatedResult<any>>(cacheKey);
+    if (cached) return cached;
+
     const skip = (page - 1) * limit;
 
     const where: any = {};
@@ -72,7 +82,7 @@ export class ProductService {
       this.prisma.client.product.count({ where }),
     ]);
 
-    return {
+    const result = {
       data,
       meta: {
         total,
@@ -81,9 +91,16 @@ export class ProductService {
         totalPages: Math.ceil(total / limit),
       },
     };
+
+    await this.cache.set(cacheKey, result, CacheTTL.PRODUCT);
+    return result;
   }
 
   async findById(id: string) {
+    const cacheKey = `${CacheKeys.PRODUCT_DETAIL}:${id}`;
+    const cached = await this.cache.get<any>(cacheKey);
+    if (cached) return cached;
+
     const product = await this.prisma.client.product.findUnique({
       where: { id },
       include: {
@@ -104,10 +121,15 @@ export class ProductService {
       throw new NotFoundException(`Product with ID "${id}" not found`);
     }
 
+    await this.cache.set(cacheKey, product, CacheTTL.PRODUCT);
     return product;
   }
 
   async findBySlug(slug: string) {
+    const cacheKey = `${CacheKeys.PRODUCT_SLUG}:${slug}`;
+    const cached = await this.cache.get<any>(cacheKey);
+    if (cached) return cached;
+
     const product = await this.prisma.client.product.findFirst({
       where: { OR: [{ slug }, { handle: slug }] },
       include: {
@@ -128,13 +150,14 @@ export class ProductService {
       throw new NotFoundException(`Product with slug "${slug}" not found`);
     }
 
+    await this.cache.set(cacheKey, product, CacheTTL.PRODUCT);
     return product;
   }
 
   async create(dto: CreateProductDto) {
     const handle = dto.handle || generateSlug(dto.title);
 
-    return this.prisma.client.product.create({
+    const product = await this.prisma.client.product.create({
       data: {
         title: dto.title,
         slug: handle,
@@ -151,6 +174,9 @@ export class ProductService {
         tags: { include: { tag: true } },
       },
     });
+
+    await this.invalidateProductCache();
+    return product;
   }
 
   async update(id: string, dto: UpdateProductDto) {
@@ -162,7 +188,7 @@ export class ProductService {
       data.handle = dto.handle || generateSlug(dto.title);
     }
 
-    return this.prisma.client.product.update({
+    const product = await this.prisma.client.product.update({
       where: { id },
       data,
       include: {
@@ -172,14 +198,20 @@ export class ProductService {
         tags: { include: { tag: true } },
       },
     });
+
+    await this.invalidateProductCache();
+    return product;
   }
 
   async remove(id: string) {
     await this.findById(id);
 
-    return this.prisma.client.product.delete({
+    const result = await this.prisma.client.product.delete({
       where: { id },
     });
+
+    await this.invalidateProductCache();
+    return result;
   }
 
   async addTag(productId: string, tagName: string) {
@@ -191,19 +223,22 @@ export class ProductService {
       create: { name: tagName },
     });
 
-    return this.prisma.client.productTag.create({
+    const result = await this.prisma.client.productTag.create({
       data: {
         productId,
         tagId: tag.id,
       },
       include: { tag: true },
     });
+
+    await this.invalidateProductCache();
+    return result;
   }
 
   async removeTag(productId: string, tagId: string) {
     await this.findById(productId);
 
-    return this.prisma.client.productTag.delete({
+    const result = await this.prisma.client.productTag.delete({
       where: {
         productId_tagId: {
           productId,
@@ -211,24 +246,30 @@ export class ProductService {
         },
       },
     });
+
+    await this.invalidateProductCache();
+    return result;
   }
 
   async addToCategory(productId: string, categoryId: string) {
     await this.findById(productId);
 
-    return this.prisma.client.productCategory.create({
+    const result = await this.prisma.client.productCategory.create({
       data: {
         productId,
         categoryId,
       },
       include: { category: true },
     });
+
+    await this.invalidateProductCache();
+    return result;
   }
 
   async removeFromCategory(productId: string, categoryId: string) {
     await this.findById(productId);
 
-    return this.prisma.client.productCategory.delete({
+    const result = await this.prisma.client.productCategory.delete({
       where: {
         productId_categoryId: {
           productId,
@@ -236,5 +277,12 @@ export class ProductService {
         },
       },
     });
+
+    await this.invalidateProductCache();
+    return result;
+  }
+
+  private async invalidateProductCache(): Promise<void> {
+    await this.cache.delByPrefix('product:');
   }
 }

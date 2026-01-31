@@ -7,10 +7,14 @@ import {
 import { CreatePriceListDto } from './dto/create-price-list.dto.js';
 import { UpdatePriceListDto } from './dto/update-price-list.dto.js';
 import { SetPriceDto } from './dto/set-price.dto.js';
+import { CacheService } from '../../common/cache/cache.service.js';
 
 @Injectable()
 export class PricingService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly cache: CacheService,
+  ) {}
 
   async findAll(query: PaginationQueryDto): Promise<PaginatedResult<any>> {
     const { page = 1, limit = 20 } = query;
@@ -58,7 +62,7 @@ export class PricingService {
   }
 
   async create(dto: CreatePriceListDto) {
-    return this.prisma.client.priceList.create({
+    const result = await this.prisma.client.priceList.create({
       data: {
         name: dto.name,
         description: dto.description,
@@ -68,12 +72,15 @@ export class PricingService {
         endsAt: dto.endsAt ? new Date(dto.endsAt) : undefined,
       },
     });
+
+    await this.invalidatePriceCache();
+    return result;
   }
 
   async update(id: string, dto: UpdatePriceListDto) {
     await this.findById(id);
 
-    return this.prisma.client.priceList.update({
+    const result = await this.prisma.client.priceList.update({
       where: { id },
       data: {
         name: dto.name,
@@ -84,15 +91,21 @@ export class PricingService {
         endsAt: dto.endsAt ? new Date(dto.endsAt) : undefined,
       },
     });
+
+    await this.invalidatePriceCache();
+    return result;
   }
 
   async remove(id: string) {
     await this.findById(id);
 
-    return this.prisma.client.priceList.update({
+    const result = await this.prisma.client.priceList.update({
       where: { id },
       data: { deletedAt: new Date() },
     });
+
+    await this.invalidatePriceCache();
+    return result;
   }
 
   async setPrice(dto: SetPriceDto) {
@@ -105,22 +118,26 @@ export class PricingService {
       },
     });
 
+    let result;
     if (existing) {
-      return this.prisma.client.priceListPrice.update({
+      result = await this.prisma.client.priceListPrice.update({
         where: { id: existing.id },
         data: { amount: dto.amount },
       });
+    } else {
+      result = await this.prisma.client.priceListPrice.create({
+        data: {
+          priceListId: dto.priceListId,
+          variantId: dto.variantId,
+          currencyCode: dto.currencyCode,
+          amount: dto.amount,
+          minQuantity: dto.minQuantity ?? 1,
+        },
+      });
     }
 
-    return this.prisma.client.priceListPrice.create({
-      data: {
-        priceListId: dto.priceListId,
-        variantId: dto.variantId,
-        currencyCode: dto.currencyCode,
-        amount: dto.amount,
-        minQuantity: dto.minQuantity ?? 1,
-      },
-    });
+    await this.invalidatePriceCache();
+    return result;
   }
 
   async removePrice(priceId: string) {
@@ -132,9 +149,12 @@ export class PricingService {
       throw new NotFoundException(`Price entry with ID "${priceId}" not found`);
     }
 
-    return this.prisma.client.priceListPrice.delete({
+    const result = await this.prisma.client.priceListPrice.delete({
       where: { id: priceId },
     });
+
+    await this.invalidatePriceCache();
+    return result;
   }
 
   async linkCustomerGroup(priceListId: string, customerGroupId: string) {
@@ -159,5 +179,9 @@ export class PricingService {
         },
       },
     });
+  }
+
+  private async invalidatePriceCache(): Promise<void> {
+    await this.cache.delByPrefix('price:');
   }
 }

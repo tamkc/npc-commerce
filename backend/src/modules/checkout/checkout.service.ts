@@ -6,13 +6,17 @@ import {
 import { Prisma } from '../../../generated/prisma/client.js';
 import { PrismaService } from '../../database/prisma.service.js';
 import { CompleteCheckoutDto } from './dto/complete-checkout.dto.js';
+import { QueueService } from '../queue/queue.service.js';
 
 @Injectable()
 export class CheckoutService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly queueService: QueueService,
+  ) {}
 
   async completeCheckout(dto: CompleteCheckoutDto) {
-    return this.prisma.client.$transaction(async (tx) => {
+    const result = await this.prisma.client.$transaction(async (tx) => {
       // a) Load cart with items + variants
       const cart = await tx.cart.findUnique({
         where: { id: dto.cartId },
@@ -225,5 +229,12 @@ export class CheckoutService {
         },
       });
     });
+
+    // Emit order-completed event for background processing
+    if (result) {
+      await this.queueService.emitOrderCompleted(result.id);
+    }
+
+    return result;
   }
 }

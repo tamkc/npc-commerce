@@ -5,10 +5,14 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '../../database/prisma.service.js';
 import { ORDER_STATUS_TRANSITIONS } from '../../common/constants/index.js';
+import { QueueService } from '../queue/queue.service.js';
 
 @Injectable()
 export class OrderLifecycleService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private readonly queueService: QueueService,
+  ) {}
 
   async transition(orderId: string, newStatus: string) {
     const order = await this.prisma.client.order.findUnique({
@@ -34,7 +38,7 @@ export class OrderLifecycleService {
       updateData.canceledAt = new Date();
     }
 
-    return this.prisma.client.order.update({
+    const updatedOrder = await this.prisma.client.order.update({
       where: { id: orderId },
       data: updateData,
       include: {
@@ -42,5 +46,8 @@ export class OrderLifecycleService {
         customer: { include: { user: true } },
       },
     });
+
+    await this.queueService.emitOrderStatusChanged(orderId, newStatus);
+    return updatedOrder;
   }
 }

@@ -1,5 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../../database/prisma.service.js';
+import { CacheService } from '../../common/cache/cache.service.js';
+import { CacheKeys, CacheTTL } from '../../common/cache/cache-keys.js';
 
 export interface CalculatedPrice {
   amount: number;
@@ -8,7 +10,10 @@ export interface CalculatedPrice {
 
 @Injectable()
 export class PriceCalculatorService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly cache: CacheService,
+  ) {}
 
   async calculatePrice(
     variantId: string,
@@ -16,6 +21,9 @@ export class PriceCalculatorService {
     currencyCode: string,
     customerGroupId?: string,
   ): Promise<CalculatedPrice> {
+    const cacheKey = `${CacheKeys.PRICE_CALCULATION}:${variantId}:${quantity}:${currencyCode}:${customerGroupId ?? 'none'}`;
+    const cached = await this.cache.get<CalculatedPrice>(cacheKey);
+    if (cached) return cached;
     // Step a) Get variant base price
     const variant = await this.prisma.client.productVariant.findUnique({
       where: { id: variantId },
@@ -111,9 +119,12 @@ export class PriceCalculatorService {
       );
     }
 
-    return {
+    const result = {
       amount: bestAmount,
       source: bestSource,
     };
+
+    await this.cache.set(cacheKey, result, CacheTTL.PRICE);
+    return result;
   }
 }

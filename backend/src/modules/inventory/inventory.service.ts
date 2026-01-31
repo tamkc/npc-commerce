@@ -6,10 +6,15 @@ import {
   PaginationQueryDto,
   PaginatedResult,
 } from '../../common/dto/pagination-query.dto.js';
+import { CacheService } from '../../common/cache/cache.service.js';
+import { CacheKeys, CacheTTL } from '../../common/cache/cache-keys.js';
 
 @Injectable()
 export class InventoryService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private readonly cache: CacheService,
+  ) {}
 
   async findAll(query: PaginationQueryDto): Promise<PaginatedResult<unknown>> {
     const page = query.page ?? 1;
@@ -30,10 +35,17 @@ export class InventoryService {
   }
 
   async findByVariant(variantId: string) {
-    return this.prisma.client.inventoryLevel.findMany({
+    const cacheKey = `${CacheKeys.INVENTORY_LEVEL}:${variantId}`;
+    const cached = await this.cache.get<any[]>(cacheKey);
+    if (cached) return cached;
+
+    const levels = await this.prisma.client.inventoryLevel.findMany({
       where: { variantId },
       include: { stockLocation: true },
     });
+
+    await this.cache.set(cacheKey, levels, CacheTTL.INVENTORY);
+    return levels;
   }
 
   async findByLocation(stockLocationId: string) {
@@ -69,7 +81,7 @@ export class InventoryService {
     const existing = await this.findById(id);
     const newOnHand = dto.onHand;
     const diff = newOnHand - existing.onHand;
-    return this.prisma.client.inventoryLevel.update({
+    const result = await this.prisma.client.inventoryLevel.update({
       where: { id },
       data: {
         onHand: newOnHand,
@@ -78,11 +90,16 @@ export class InventoryService {
       },
       include: { variant: true, stockLocation: true },
     });
+
+    await this.cache.del(`${CacheKeys.INVENTORY_LEVEL}:${existing.variantId}`);
+    return result;
   }
 
   async remove(id: string) {
-    await this.findById(id);
-    return this.prisma.client.inventoryLevel.delete({ where: { id } });
+    const existing = await this.findById(id);
+    const result = await this.prisma.client.inventoryLevel.delete({ where: { id } });
+    await this.cache.del(`${CacheKeys.INVENTORY_LEVEL}:${existing.variantId}`);
+    return result;
   }
 
   async getLowStock() {

@@ -6,8 +6,10 @@ import appConfig from './config/app.config.js';
 import jwtConfig from './config/jwt.config.js';
 import stripeConfig from './config/stripe.config.js';
 import throttleConfig from './config/throttle.config.js';
+import redisConfig from './config/redis.config.js';
 
 import { PrismaModule } from './database/prisma.module.js';
+import { AppCacheModule } from './common/cache/cache.module.js';
 import { JwtAuthGuard } from './common/guards/jwt-auth.guard.js';
 import { RolesGuard } from './common/guards/roles.guard.js';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
@@ -43,11 +45,14 @@ import { PaymentModule } from './modules/payment/payment.module.js';
 import { OrderModule } from './modules/order/order.module.js';
 import { FulfillmentModule } from './modules/fulfillment/fulfillment.module.js';
 
+// Infrastructure: Queues
+import { QueueModule } from './modules/queue/queue.module.js';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [appConfig, jwtConfig, stripeConfig, throttleConfig],
+      load: [appConfig, jwtConfig, stripeConfig, throttleConfig, redisConfig],
     }),
     ThrottlerModule.forRootAsync({
       imports: [ConfigModule],
@@ -60,6 +65,7 @@ import { FulfillmentModule } from './modules/fulfillment/fulfillment.module.js';
       ],
     }),
     PrismaModule,
+    AppCacheModule,
 
     // User Access
     UserModule,
@@ -90,6 +96,9 @@ import { FulfillmentModule } from './modules/fulfillment/fulfillment.module.js';
     // Orders & Fulfillment
     OrderModule,
     FulfillmentModule,
+
+    // Infrastructure
+    QueueModule,
   ],
   providers: [
     {
