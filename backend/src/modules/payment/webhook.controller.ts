@@ -4,10 +4,10 @@ import {
   Headers,
   Req,
   BadRequestException,
-  RawBodyRequest,
 } from '@nestjs/common';
+import type { RawBodyRequest } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiExcludeEndpoint } from '@nestjs/swagger';
-import { Request } from 'express';
+import type { Request } from 'express';
 import { Public } from '../../common/decorators/public.decorator.js';
 import { StripeService } from './stripe.service.js';
 import { PaymentService } from './payment.service.js';
@@ -26,9 +26,9 @@ export class WebhookController {
   @ApiExcludeEndpoint()
   async handleWebhook(
     @Headers('stripe-signature') signature: string,
-    @Req() req: RawBodyRequest<Request>,
+    @Req() req: any,
   ) {
-    const rawBody = req.rawBody;
+    const rawBody = (req as RawBodyRequest<Request>).rawBody;
 
     if (!rawBody) {
       throw new BadRequestException('Missing raw body');

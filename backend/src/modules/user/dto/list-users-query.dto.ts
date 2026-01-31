@@ -1,7 +1,7 @@
 import { IsBoolean, IsEnum, IsOptional } from 'class-validator';
 import { Transform } from 'class-transformer';
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { UserRole } from '../../../../generated/prisma/index.js';
+import { UserRole } from '../../../../generated/prisma/client.js';
 import { PaginationQueryDto } from '../../../common/dto/pagination-query.dto.js';
 
 export class ListUsersQueryDto extends PaginationQueryDto {

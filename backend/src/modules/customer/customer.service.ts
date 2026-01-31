@@ -9,7 +9,7 @@ import type {
   Address,
   CustomerGroup,
   Prisma,
-} from '../../../generated/prisma/index.js';
+} from '../../../generated/prisma/client.js';
 import { UpdateCustomerDto } from './dto/update-customer.dto.js';
 import { CreateAddressDto } from './dto/create-address.dto.js';
 import { UpdateAddressDto } from './dto/update-address.dto.js';
@@ -156,7 +156,7 @@ export class CustomerService {
     const data: Prisma.CustomerUpdateInput = {};
 
     if (dto.phone !== undefined) data.phone = dto.phone;
-    if (dto.metadata !== undefined) data.metadata = dto.metadata;
+    if (dto.metadata !== undefined) data.metadata = dto.metadata as any;
     if (dto.customerGroupId !== undefined) {
       if (dto.customerGroupId) {
         data.customerGroup = { connect: { id: dto.customerGroupId } };
@@ -326,7 +326,7 @@ export class CustomerService {
       data: {
         name: dto.name,
         description: dto.description,
-        metadata: dto.metadata,
+        metadata: dto.metadata as any,
       },
     });
   }
@@ -357,7 +357,7 @@ export class CustomerService {
 
     return this.prisma.client.customerGroup.update({
       where: { id },
-      data: dto,
+      data: dto as any,
     });
   }
 

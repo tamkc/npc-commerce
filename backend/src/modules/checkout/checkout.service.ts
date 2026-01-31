@@ -158,11 +158,8 @@ export class CheckoutService {
           status: 'PENDING',
           paymentStatus: 'NOT_PAID',
           fulfillmentStatus: 'NOT_FULFILLED',
-          shippingAddress: shippingAddress as unknown as Record<
-            string,
-            unknown
-          >,
-          billingAddress: billingAddress as unknown as Record<string, unknown>,
+          shippingAddress: shippingAddress as unknown as Prisma.InputJsonValue,
+          billingAddress: billingAddress as unknown as Prisma.InputJsonValue,
           regionId: cart.regionId,
           salesChannelId: cart.salesChannelId,
         },

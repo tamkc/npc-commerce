@@ -74,10 +74,12 @@ export class ProductService {
 
     return {
       data,
-      total,
-      page,
-      limit,
-      totalPages: Math.ceil(total / limit),
+      meta: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      },
     };
   }
 
@@ -95,9 +97,6 @@ export class ProductService {
         tags: {
           include: { tag: true },
         },
-        options: {
-          include: { values: true },
-        },
       },
     });
 
@@ -110,7 +109,7 @@ export class ProductService {
 
   async findBySlug(slug: string) {
     const product = await this.prisma.client.product.findFirst({
-      where: { handle: slug },
+      where: { OR: [{ slug }, { handle: slug }] },
       include: {
         variants: {
           include: { optionValues: true },
@@ -121,9 +120,6 @@ export class ProductService {
         },
         tags: {
           include: { tag: true },
-        },
-        options: {
-          include: { values: true },
         },
       },
     });
@@ -141,11 +137,12 @@ export class ProductService {
     return this.prisma.client.product.create({
       data: {
         title: dto.title,
+        slug: handle,
         description: dto.description,
         handle,
         status: dto.status || 'DRAFT',
         isGiftCard: dto.isGiftCard ?? false,
-        metadata: dto.metadata ?? {},
+        metadata: (dto.metadata ?? {}) as any,
       },
       include: {
         variants: true,
@@ -188,13 +185,13 @@ export class ProductService {
   async addTag(productId: string, tagName: string) {
     await this.findById(productId);
 
-    const tag = await this.prisma.client.productTag.upsert({
+    const tag = await this.prisma.client.tag.upsert({
       where: { name: tagName },
       update: {},
       create: { name: tagName },
     });
 
-    return this.prisma.client.productToTag.create({
+    return this.prisma.client.productTag.create({
       data: {
         productId,
         tagId: tag.id,
@@ -206,7 +203,7 @@ export class ProductService {
   async removeTag(productId: string, tagId: string) {
     await this.findById(productId);
 
-    return this.prisma.client.productToTag.delete({
+    return this.prisma.client.productTag.delete({
       where: {
         productId_tagId: {
           productId,
@@ -219,7 +216,7 @@ export class ProductService {
   async addToCategory(productId: string, categoryId: string) {
     await this.findById(productId);
 
-    return this.prisma.client.productToCategory.create({
+    return this.prisma.client.productCategory.create({
       data: {
         productId,
         categoryId,
@@ -231,7 +228,7 @@ export class ProductService {
   async removeFromCategory(productId: string, categoryId: string) {
     await this.findById(productId);
 
-    return this.prisma.client.productToCategory.delete({
+    return this.prisma.client.productCategory.delete({
       where: {
         productId_categoryId: {
           productId,

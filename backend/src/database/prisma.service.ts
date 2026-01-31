@@ -5,6 +5,7 @@ import {
   Logger,
 } from '@nestjs/common';
 import { PrismaClient } from '../../generated/prisma/client.js';
+import { PrismaPg } from '@prisma/adapter-pg';
 
 /**
  * Models that have a `deletedAt` field and support soft-delete.
@@ -88,7 +89,8 @@ export class PrismaService implements OnModuleInit, OnModuleDestroy {
   private readonly _client: ExtendedPrismaClient;
 
   constructor() {
-    this.baseClient = new PrismaClient();
+    const adapter = new PrismaPg(process.env['DATABASE_URL']!);
+    this.baseClient = new PrismaClient({ adapter });
     this._client = createSoftDeleteClient(this.baseClient);
   }
 

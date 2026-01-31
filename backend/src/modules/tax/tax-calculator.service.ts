@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../database/prisma.service.js';
-import { Decimal } from '../../../generated/prisma/runtime/library.js';
+import { Prisma } from '../../../generated/prisma/client.js';
+type Decimal = Prisma.Decimal;
+const Decimal = Prisma.Decimal;
 
 export interface TaxCalculation {
   taxRate: number;

@@ -14,7 +14,7 @@ import { ChangePasswordDto } from './dto/change-password.dto.js';
 import { LocalAuthGuard } from './guards/local-auth.guard.js';
 import { Public } from '../../common/decorators/public.decorator.js';
 import { CurrentUser } from '../../common/decorators/current-user.decorator.js';
-import { JwtPayload } from './strategies/jwt.strategy.js';
+import type { JwtPayload } from './strategies/jwt.strategy.js';
 
 @ApiTags('Auth')
 @Controller('auth')

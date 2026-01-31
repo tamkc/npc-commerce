@@ -15,7 +15,7 @@ export class CreateStockLocationDto {
   @IsString()
   @MinLength(1)
   @MaxLength(255)
-  name: string;
+  name!: string;
 
   @ApiProperty({
     description: 'Unique code for the stock location',
@@ -24,7 +24,7 @@ export class CreateStockLocationDto {
   @IsString()
   @MinLength(1)
   @MaxLength(50)
-  code: string;
+  code!: string;
 
   @ApiPropertyOptional({
     description: 'Address line 1',

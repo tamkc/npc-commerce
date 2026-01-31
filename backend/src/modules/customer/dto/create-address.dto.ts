@@ -18,13 +18,13 @@ export class CreateAddressDto {
   @IsNotEmpty()
   @IsString()
   @MaxLength(100)
-  firstName: string;
+  firstName!: string;
 
   @ApiProperty({ description: 'Last name', example: 'Doe' })
   @IsNotEmpty()
   @IsString()
   @MaxLength(100)
-  lastName: string;
+  lastName!: string;
 
   @ApiProperty({
     description: 'Address line 1',
@@ -33,7 +33,7 @@ export class CreateAddressDto {
   @IsNotEmpty()
   @IsString()
   @MaxLength(255)
-  addressLine1: string;
+  addressLine1!: string;
 
   @ApiPropertyOptional({
     description: 'Address line 2',
@@ -48,7 +48,7 @@ export class CreateAddressDto {
   @IsNotEmpty()
   @IsString()
   @MaxLength(100)
-  city: string;
+  city!: string;
 
   @ApiPropertyOptional({ description: 'State / Province', example: 'NY' })
   @IsOptional()
@@ -60,7 +60,7 @@ export class CreateAddressDto {
   @IsNotEmpty()
   @IsString()
   @MaxLength(20)
-  postalCode: string;
+  postalCode!: string;
 
   @ApiProperty({
     description: 'ISO 3166-1 alpha-2 country code',
@@ -69,7 +69,7 @@ export class CreateAddressDto {
   @IsNotEmpty()
   @IsString()
   @MaxLength(2)
-  countryCode: string;
+  countryCode!: string;
 
   @ApiPropertyOptional({
     description: 'Phone number for this address',

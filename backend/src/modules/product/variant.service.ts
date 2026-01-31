@@ -46,7 +46,7 @@ export class VariantService {
         weightUnit: dto.weightUnit,
         position: dto.position ?? 0,
         manageInventory: dto.manageInventory ?? true,
-        metadata: dto.metadata ?? {},
+        metadata: (dto.metadata ?? {}) as any,
       },
       include: {
         optionValues: true,
@@ -74,7 +74,7 @@ export class VariantService {
         ...(dto.manageInventory !== undefined && {
           manageInventory: dto.manageInventory,
         }),
-        ...(dto.metadata !== undefined && { metadata: dto.metadata }),
+        ...(dto.metadata !== undefined && { metadata: dto.metadata as any }),
       },
       include: {
         optionValues: true,

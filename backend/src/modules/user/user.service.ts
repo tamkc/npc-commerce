@@ -4,7 +4,7 @@ import {
   ConflictException,
 } from '@nestjs/common';
 import { PrismaService } from '../../database/prisma.service.js';
-import type { User, Prisma } from '../../../generated/prisma/index.js';
+import type { User, Prisma } from '../../../generated/prisma/client.js';
 import { CreateUserDto } from './dto/create-user.dto.js';
 import { UpdateUserDto } from './dto/update-user.dto.js';
 import { ListUsersQueryDto } from './dto/list-users-query.dto.js';
@@ -57,8 +57,8 @@ export class UserService {
     return new PaginatedResponseDto(
       users as unknown as User[],
       total,
-      query.page,
-      query.limit,
+      query.page ?? 1,
+      query.limit ?? 20,
     );
   }
 

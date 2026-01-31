@@ -6,7 +6,7 @@ export class CreateCustomerGroupDto {
   @IsNotEmpty()
   @IsString()
   @MaxLength(100)
-  name: string;
+  name!: string;
 
   @ApiPropertyOptional({
     description: 'Group description',

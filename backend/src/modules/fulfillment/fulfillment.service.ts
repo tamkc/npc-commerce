@@ -42,7 +42,7 @@ export class FulfillmentService {
           shippingMethodId: dto.shippingMethodId,
           trackingNumber: dto.trackingNumber,
           trackingUrl: dto.trackingUrl,
-          metadata: dto.metadata,
+          metadata: dto.metadata as any,
         },
       });
 
@@ -72,7 +72,7 @@ export class FulfillmentService {
       data: {
         trackingNumber: dto.trackingNumber,
         trackingUrl: dto.trackingUrl,
-        metadata: dto.metadata,
+        metadata: dto.metadata as any,
       },
       include: { items: true, stockLocation: true, shippingMethod: true },
     });

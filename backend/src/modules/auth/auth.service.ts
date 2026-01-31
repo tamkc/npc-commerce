@@ -14,7 +14,7 @@ import {
 import { RegisterDto } from './dto/register.dto.js';
 import { v4 as uuidv4 } from 'uuid';
 
-interface TokenPair {
+export interface TokenPair {
   accessToken: string;
   refreshToken: string;
 }
@@ -151,8 +151,8 @@ export class AuthService {
     email: string;
     role: string;
   }): TokenPair {
-    const accessToken = this.jwtService.sign(payload, {
-      expiresIn: this.configService.get<string>('jwt.accessExpiresIn', '15m'),
+    const accessToken = this.jwtService.sign(payload as any, {
+      expiresIn: this.configService.get<string>('jwt.accessExpiresIn', '15m') as any,
     });
 
     const refreshToken = uuidv4();

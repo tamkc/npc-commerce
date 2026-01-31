@@ -8,10 +8,8 @@ import {
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { OrderService } from './order.service.js';
 import { PaginationQueryDto } from '../../common/dto/pagination-query.dto.js';
-import {
-  CurrentUser,
-  JwtPayload,
-} from '../../common/decorators/current-user.decorator.js';
+import { CurrentUser } from '../../common/decorators/current-user.decorator.js';
+import type { JwtPayload } from '../../common/decorators/current-user.decorator.js';
 
 @ApiTags('Orders (Store)')
 @ApiBearerAuth()

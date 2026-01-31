@@ -9,7 +9,7 @@ export class CategoryService {
   constructor(private readonly prisma: PrismaService) {}
 
   async findAll() {
-    return this.prisma.client.productCategory.findMany({
+    return this.prisma.client.category.findMany({
       where: { parentId: null },
       orderBy: { position: 'asc' },
       include: {
@@ -32,7 +32,7 @@ export class CategoryService {
   }
 
   async findById(id: string) {
-    const category = await this.prisma.client.productCategory.findUnique({
+    const category = await this.prisma.client.category.findUnique({
       where: { id },
       include: {
         children: {
@@ -62,8 +62,8 @@ export class CategoryService {
   }
 
   async findBySlug(slug: string) {
-    const category = await this.prisma.client.productCategory.findFirst({
-      where: { handle: slug },
+    const category = await this.prisma.client.category.findFirst({
+      where: { slug },
       include: {
         children: {
           orderBy: { position: 'asc' },
@@ -92,13 +92,13 @@ export class CategoryService {
   }
 
   async create(dto: CreateCategoryDto) {
-    const handle = generateSlug(dto.name);
+    const slug = generateSlug(dto.name);
 
-    return this.prisma.client.productCategory.create({
+    return this.prisma.client.category.create({
       data: {
         name: dto.name,
+        slug,
         description: dto.description,
-        handle,
         parentId: dto.parentId,
         position: dto.position ?? 0,
         isActive: dto.isActive ?? true,
@@ -118,10 +118,10 @@ export class CategoryService {
     const data: any = { ...dto };
 
     if (dto.name) {
-      data.handle = generateSlug(dto.name);
+      data.slug = generateSlug(dto.name);
     }
 
-    return this.prisma.client.productCategory.update({
+    return this.prisma.client.category.update({
       where: { id },
       data,
       include: {
@@ -136,7 +136,7 @@ export class CategoryService {
   async remove(id: string) {
     await this.findById(id);
 
-    return this.prisma.client.productCategory.delete({
+    return this.prisma.client.category.delete({
       where: { id },
     });
   }

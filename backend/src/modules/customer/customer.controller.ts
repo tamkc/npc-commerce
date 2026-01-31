@@ -28,7 +28,7 @@ import { Roles } from '../../common/decorators/roles.decorator.js';
 import { CurrentUser } from '../../common/decorators/current-user.decorator.js';
 import type { JwtPayload } from '../../common/decorators/current-user.decorator.js';
 import { RolesGuard } from '../../common/guards/roles.guard.js';
-import { UserRole } from '../../../generated/prisma/index.js';
+import { UserRole } from '../../../generated/prisma/client.js';
 
 // ================================================================
 // Admin endpoints

@@ -54,7 +54,7 @@ export class ShippingMethodService {
         minOrderAmount: dto.minOrderAmount,
         maxOrderAmount: dto.maxOrderAmount,
         isActive: dto.isActive ?? true,
-        metadata: dto.metadata,
+        metadata: dto.metadata as any,
       },
       include: { region: true },
     });
@@ -70,7 +70,7 @@ export class ShippingMethodService {
         minOrderAmount: dto.minOrderAmount,
         maxOrderAmount: dto.maxOrderAmount,
         isActive: dto.isActive,
-        metadata: dto.metadata,
+        metadata: dto.metadata as any,
       },
       include: { region: true },
     });
