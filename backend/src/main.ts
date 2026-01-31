@@ -8,10 +8,13 @@ import { PrismaExceptionFilter } from './common/filters/prisma-exception.filter.
 import { TransformResponseInterceptor } from './common/interceptors/transform-response.interceptor.js';
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor.js';
 import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor.js';
+import { WinstonModule } from 'nest-winston';
+import { loggerConfig } from './config/logger.config.js';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     rawBody: true,
+    logger: WinstonModule.createLogger(loggerConfig),
   });
 
   const configService = app.get(ConfigService);

@@ -5,10 +5,13 @@ import { APP_GUARD } from '@nestjs/core';
 import appConfig from './config/app.config.js';
 import jwtConfig from './config/jwt.config.js';
 import stripeConfig from './config/stripe.config.js';
+import throttleConfig from './config/throttle.config.js';
 
 import { PrismaModule } from './database/prisma.module.js';
 import { JwtAuthGuard } from './common/guards/jwt-auth.guard.js';
 import { RolesGuard } from './common/guards/roles.guard.js';
+import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
+import { ConfigService } from '@nestjs/config';
 
 // Phase 1: User Access
 import { UserModule } from './modules/user/user.module.js';
@@ -44,7 +47,17 @@ import { FulfillmentModule } from './modules/fulfillment/fulfillment.module.js';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [appConfig, jwtConfig, stripeConfig],
+      load: [appConfig, jwtConfig, stripeConfig, throttleConfig],
+    }),
+    ThrottlerModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => [
+        {
+          ttl: config.get<number>('throttle.ttl') ?? 60000,
+          limit: config.get<number>('throttle.limit') ?? 100,
+        },
+      ],
     }),
     PrismaModule,
 
@@ -86,6 +99,10 @@ import { FulfillmentModule } from './modules/fulfillment/fulfillment.module.js';
     {
       provide: APP_GUARD,
       useClass: RolesGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
     },
   ],
 })
