@@ -8,12 +8,48 @@ async function main() {
 
   // 1. Currencies
   const currencies = [
-    { code: 'USD', name: 'US Dollar', symbol: '$', symbolNative: '$', decimalDigits: 2 },
-    { code: 'EUR', name: 'Euro', symbol: '\u20AC', symbolNative: '\u20AC', decimalDigits: 2 },
-    { code: 'GBP', name: 'British Pound', symbol: '\u00A3', symbolNative: '\u00A3', decimalDigits: 2 },
-    { code: 'JPY', name: 'Japanese Yen', symbol: '\u00A5', symbolNative: '\uFFE5', decimalDigits: 0 },
-    { code: 'CAD', name: 'Canadian Dollar', symbol: 'CA$', symbolNative: '$', decimalDigits: 2 },
-    { code: 'AUD', name: 'Australian Dollar', symbol: 'A$', symbolNative: '$', decimalDigits: 2 },
+    {
+      code: 'USD',
+      name: 'US Dollar',
+      symbol: '$',
+      symbolNative: '$',
+      decimalDigits: 2,
+    },
+    {
+      code: 'EUR',
+      name: 'Euro',
+      symbol: '\u20AC',
+      symbolNative: '\u20AC',
+      decimalDigits: 2,
+    },
+    {
+      code: 'GBP',
+      name: 'British Pound',
+      symbol: '\u00A3',
+      symbolNative: '\u00A3',
+      decimalDigits: 2,
+    },
+    {
+      code: 'JPY',
+      name: 'Japanese Yen',
+      symbol: '\u00A5',
+      symbolNative: '\uFFE5',
+      decimalDigits: 0,
+    },
+    {
+      code: 'CAD',
+      name: 'Canadian Dollar',
+      symbol: 'CA$',
+      symbolNative: '$',
+      decimalDigits: 2,
+    },
+    {
+      code: 'AUD',
+      name: 'Australian Dollar',
+      symbol: 'A$',
+      symbolNative: '$',
+      decimalDigits: 2,
+    },
   ];
   for (const c of currencies) {
     await prisma.currency.upsert({
@@ -50,14 +86,18 @@ async function main() {
   const euCountries = ['GB', 'DE', 'FR', 'IT', 'ES', 'NL'];
   for (const code of naCountries) {
     await prisma.regionCountry.upsert({
-      where: { regionId_countryCode: { regionId: naRegion.id, countryCode: code } },
+      where: {
+        regionId_countryCode: { regionId: naRegion.id, countryCode: code },
+      },
       update: {},
       create: { regionId: naRegion.id, countryCode: code },
     });
   }
   for (const code of euCountries) {
     await prisma.regionCountry.upsert({
-      where: { regionId_countryCode: { regionId: euRegion.id, countryCode: code } },
+      where: {
+        regionId_countryCode: { regionId: euRegion.id, countryCode: code },
+      },
       update: {},
       create: { regionId: euRegion.id, countryCode: code },
     });
@@ -68,12 +108,24 @@ async function main() {
   await prisma.taxRate.upsert({
     where: { id: 'seed-tax-na' },
     update: {},
-    create: { id: 'seed-tax-na', regionId: naRegion.id, name: 'US Sales Tax', rate: 0.08, isDefault: true },
+    create: {
+      id: 'seed-tax-na',
+      regionId: naRegion.id,
+      name: 'US Sales Tax',
+      rate: 0.08,
+      isDefault: true,
+    },
   });
   await prisma.taxRate.upsert({
     where: { id: 'seed-tax-eu' },
     update: {},
-    create: { id: 'seed-tax-eu', regionId: euRegion.id, name: 'EU VAT', rate: 0.2, isDefault: true },
+    create: {
+      id: 'seed-tax-eu',
+      regionId: euRegion.id,
+      name: 'EU VAT',
+      rate: 0.2,
+      isDefault: true,
+    },
   });
   console.log('  Created 2 tax rates');
 
@@ -91,22 +143,56 @@ async function main() {
   console.log('  Created 2 sales channels');
 
   // 6. Shipping methods
-  await prisma.shippingMethod.create({
-    data: { regionId: naRegion.id, name: 'Standard Shipping', price: 5.99, isActive: true },
-  }).catch(() => { /* ignore duplicate */ });
-  await prisma.shippingMethod.create({
-    data: { regionId: naRegion.id, name: 'Express Shipping', price: 14.99, isActive: true },
-  }).catch(() => { /* ignore duplicate */ });
-  await prisma.shippingMethod.create({
-    data: { regionId: euRegion.id, name: 'EU Standard Shipping', price: 7.99, isActive: true },
-  }).catch(() => { /* ignore duplicate */ });
+  await prisma.shippingMethod
+    .create({
+      data: {
+        regionId: naRegion.id,
+        name: 'Standard Shipping',
+        price: 5.99,
+        isActive: true,
+      },
+    })
+    .catch(() => {
+      /* ignore duplicate */
+    });
+  await prisma.shippingMethod
+    .create({
+      data: {
+        regionId: naRegion.id,
+        name: 'Express Shipping',
+        price: 14.99,
+        isActive: true,
+      },
+    })
+    .catch(() => {
+      /* ignore duplicate */
+    });
+  await prisma.shippingMethod
+    .create({
+      data: {
+        regionId: euRegion.id,
+        name: 'EU Standard Shipping',
+        price: 7.99,
+        isActive: true,
+      },
+    })
+    .catch(() => {
+      /* ignore duplicate */
+    });
   console.log('  Created shipping methods');
 
   // 7. Stock locations
   const warehouse = await prisma.stockLocation.upsert({
     where: { code: 'WH-01' },
     update: {},
-    create: { name: 'Main Warehouse', code: 'WH-01', city: 'New York', state: 'NY', countryCode: 'US', isActive: true },
+    create: {
+      name: 'Main Warehouse',
+      code: 'WH-01',
+      city: 'New York',
+      state: 'NY',
+      countryCode: 'US',
+      isActive: true,
+    },
   });
   console.log('  Created stock location');
 
@@ -152,7 +238,8 @@ async function main() {
     {
       title: 'Classic T-Shirt',
       slug: 'classic-t-shirt',
-      description: 'A comfortable classic cotton t-shirt available in multiple sizes and colors.',
+      description:
+        'A comfortable classic cotton t-shirt available in multiple sizes and colors.',
       status: 'PUBLISHED' as const,
       variants: [
         { title: 'Small / White', sku: 'TSH-S-WHT', price: 29.99 },
@@ -201,16 +288,17 @@ async function main() {
     {
       title: 'Wireless Earbuds',
       slug: 'wireless-earbuds',
-      description: 'True wireless earbuds with active noise cancellation and 24h battery life.',
+      description:
+        'True wireless earbuds with active noise cancellation and 24h battery life.',
       status: 'PUBLISHED' as const,
-      variants: [
-        { title: 'Default', sku: 'EBD-001', price: 199.99 },
-      ],
+      variants: [{ title: 'Default', sku: 'EBD-001', price: 199.99 }],
     },
   ];
 
   for (const p of products) {
-    const existing = await prisma.product.findUnique({ where: { slug: p.slug } });
+    const existing = await prisma.product.findUnique({
+      where: { slug: p.slug },
+    });
     if (existing) continue;
 
     const product = await prisma.product.create({
@@ -246,7 +334,9 @@ async function main() {
       });
     }
   }
-  console.log(`  Created ${products.length} sample products with variants and inventory`);
+  console.log(
+    `  Created ${products.length} sample products with variants and inventory`,
+  );
 
   // 11. Categories
   const categories = ['Clothing', 'Footwear', 'Accessories', 'Electronics'];
@@ -261,20 +351,24 @@ async function main() {
   console.log(`  Created ${categories.length} categories`);
 
   // 12. Sample promotion
-  await prisma.promotion.create({
-    data: {
-      code: 'WELCOME10',
-      name: 'Welcome 10% Off',
-      description: '10% off for new customers',
-      type: 'PERCENTAGE',
-      value: 10,
-      usageLimit: 1000,
-      perCustomerLimit: 1,
-      isActive: true,
-      startsAt: new Date(),
-      endsAt: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
-    },
-  }).catch(() => { /* ignore duplicate */ });
+  await prisma.promotion
+    .create({
+      data: {
+        code: 'WELCOME10',
+        name: 'Welcome 10% Off',
+        description: '10% off for new customers',
+        type: 'PERCENTAGE',
+        value: 10,
+        usageLimit: 1000,
+        perCustomerLimit: 1,
+        isActive: true,
+        startsAt: new Date(),
+        endsAt: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
+      },
+    })
+    .catch(() => {
+      /* ignore duplicate */
+    });
   console.log('  Created sample promotion (WELCOME10)');
 
   console.log('\nSeed completed successfully!');
