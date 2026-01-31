@@ -158,8 +158,11 @@ export class CheckoutService {
           status: 'PENDING',
           paymentStatus: 'NOT_PAID',
           fulfillmentStatus: 'NOT_FULFILLED',
-          shippingAddress: shippingAddress as any,
-          billingAddress: billingAddress as any,
+          shippingAddress: shippingAddress as unknown as Record<
+            string,
+            unknown
+          >,
+          billingAddress: billingAddress as unknown as Record<string, unknown>,
           regionId: cart.regionId,
           salesChannelId: cart.salesChannelId,
         },

@@ -47,7 +47,7 @@ export class RegionService {
 
   async update(id: string, dto: UpdateRegionDto) {
     await this.findById(id);
-    const { countryCodes, ...data } = dto;
+    const { countryCodes: _countryCodes, ...data } = dto;
     return this.prisma.client.region.update({
       where: { id },
       data,

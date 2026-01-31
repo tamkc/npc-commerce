@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { PrismaService } from '../../database/prisma.service.js';
 import { CreateFulfillmentDto } from './dto/create-fulfillment.dto.js';
 import { UpdateFulfillmentDto } from './dto/update-fulfillment.dto.js';
@@ -18,7 +22,12 @@ export class FulfillmentService {
   async findById(id: string) {
     const fulfillment = await this.prisma.client.fulfillment.findUnique({
       where: { id },
-      include: { items: true, stockLocation: true, shippingMethod: true, order: true },
+      include: {
+        items: true,
+        stockLocation: true,
+        shippingMethod: true,
+        order: true,
+      },
     });
     if (!fulfillment) throw new NotFoundException('Fulfillment not found');
     return fulfillment;
@@ -33,7 +42,7 @@ export class FulfillmentService {
           shippingMethodId: dto.shippingMethodId,
           trackingNumber: dto.trackingNumber,
           trackingUrl: dto.trackingUrl,
-          metadata: dto.metadata as any,
+          metadata: dto.metadata,
         },
       });
 
@@ -63,7 +72,7 @@ export class FulfillmentService {
       data: {
         trackingNumber: dto.trackingNumber,
         trackingUrl: dto.trackingUrl,
-        metadata: dto.metadata as any,
+        metadata: dto.metadata,
       },
       include: { items: true, stockLocation: true, shippingMethod: true },
     });

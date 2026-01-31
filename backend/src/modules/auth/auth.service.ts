@@ -50,7 +50,7 @@ export class AuthService {
       },
     });
 
-    const tokens = await this.generateTokens({
+    const tokens = this.generateTokens({
       sub: user.id,
       email: user.email,
       role: user.role,
@@ -78,7 +78,7 @@ export class AuthService {
     email: string;
     role: string;
   }): Promise<TokenPair> {
-    const tokens = await this.generateTokens({
+    const tokens = this.generateTokens({
       sub: user.id,
       email: user.email,
       role: user.role,
@@ -109,7 +109,7 @@ export class AuthService {
       data: { revokedAt: new Date() },
     });
 
-    const tokens = await this.generateTokens({
+    const tokens = this.generateTokens({
       sub: stored.user.id,
       email: stored.user.email,
       role: stored.user.role,
@@ -146,11 +146,11 @@ export class AuthService {
     });
   }
 
-  private async generateTokens(payload: {
+  private generateTokens(payload: {
     sub: string;
     email: string;
     role: string;
-  }): Promise<TokenPair> {
+  }): TokenPair {
     const accessToken = this.jwtService.sign(payload, {
       expiresIn: this.configService.get<string>('jwt.accessExpiresIn', '15m'),
     });

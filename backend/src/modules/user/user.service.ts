@@ -31,8 +31,8 @@ export class UserService {
       where.isActive = query.isActive;
     }
 
-    const [users, total] = await this.prisma.$transaction([
-      this.prisma.user.findMany({
+    const [users, total] = await this.prisma.client.$transaction([
+      this.prisma.client.user.findMany({
         where,
         skip,
         take,
@@ -51,7 +51,7 @@ export class UserService {
           passwordHash: false,
         },
       }),
-      this.prisma.user.count({ where }),
+      this.prisma.client.user.count({ where }),
     ]);
 
     return new PaginatedResponseDto(
@@ -63,7 +63,7 @@ export class UserService {
   }
 
   async findById(id: string): Promise<User> {
-    const user = await this.prisma.user.findFirst({
+    const user = await this.prisma.client.user.findFirst({
       where: { id, deletedAt: null },
     });
 
@@ -75,13 +75,13 @@ export class UserService {
   }
 
   async findByEmail(email: string): Promise<User | null> {
-    return this.prisma.user.findFirst({
+    return this.prisma.client.user.findFirst({
       where: { email, deletedAt: null },
     });
   }
 
   async create(dto: CreateUserDto): Promise<User> {
-    const existing = await this.prisma.user.findUnique({
+    const existing = await this.prisma.client.user.findUnique({
       where: { email: dto.email },
     });
 
@@ -93,7 +93,7 @@ export class UserService {
 
     const passwordHash = await hashPassword(dto.password);
 
-    return this.prisma.user.create({
+    return this.prisma.client.user.create({
       data: {
         email: dto.email,
         passwordHash,
@@ -110,7 +110,7 @@ export class UserService {
     const data: Prisma.UserUpdateInput = {};
 
     if (dto.email !== undefined) {
-      const existing = await this.prisma.user.findFirst({
+      const existing = await this.prisma.client.user.findFirst({
         where: { email: dto.email, id: { not: id } },
       });
       if (existing) {
@@ -130,7 +130,7 @@ export class UserService {
     if (dto.role !== undefined) data.role = dto.role;
     if (dto.isActive !== undefined) data.isActive = dto.isActive;
 
-    return this.prisma.user.update({
+    return this.prisma.client.user.update({
       where: { id },
       data,
     });
@@ -139,7 +139,7 @@ export class UserService {
   async remove(id: string): Promise<User> {
     await this.findById(id);
 
-    return this.prisma.user.update({
+    return this.prisma.client.user.update({
       where: { id },
       data: { deletedAt: new Date() },
     });

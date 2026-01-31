@@ -27,7 +27,7 @@ export class TimeoutInterceptor implements NestInterceptor {
             () => new RequestTimeoutException('Request timed out'),
           );
         }
-        return throwError(() => err);
+        return throwError(() => err as Error);
       }),
     );
   }
