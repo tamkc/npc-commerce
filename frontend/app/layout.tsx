@@ -1,12 +1,5 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { Providers } from "@/providers";
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
-import { CartDrawer } from "@/components/cart/CartDrawer";
-import { CartInitializer } from "@/components/cart/CartInitializer";
-import { ToastContainer } from "@/components/ui/Toast";
-import { ChatbotWidget } from "@/components/ai/ChatbotWidget";
 import { APP_NAME } from "@/lib/constants";
 import "./globals.css";
 
@@ -39,17 +32,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Providers>
-          <CartInitializer />
-          <div className="flex min-h-screen flex-col">
-            <Navbar />
-            <main className="flex-1">{children}</main>
-            <Footer />
-          </div>
-          <CartDrawer />
-          <ChatbotWidget />
-          <ToastContainer />
-        </Providers>
+        {children}
       </body>
     </html>
   );
