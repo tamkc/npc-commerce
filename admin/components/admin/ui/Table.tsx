@@ -17,6 +17,7 @@ interface TableProps<T> {
   isLoading?: boolean;
   emptyMessage?: string;
   className?: string;
+  rowKey?: (item: T, index: number) => string | number;
 }
 
 function TableSkeleton({ columns }: { columns: number }) {
@@ -35,13 +36,14 @@ function TableSkeleton({ columns }: { columns: number }) {
   );
 }
 
-export function Table<T extends { id?: string }>({
+export function Table<T>({
   columns,
   data,
   onRowClick,
   isLoading,
   emptyMessage = "No data found",
   className,
+  rowKey,
 }: TableProps<T>) {
   return (
     <div
@@ -82,7 +84,7 @@ export function Table<T extends { id?: string }>({
             ) : (
               data.map((item, index) => (
                 <tr
-                  key={item.id ?? index}
+                  key={rowKey ? rowKey(item, index) : (item as Record<string, unknown>).id as string ?? index}
                   onClick={() => onRowClick?.(item)}
                   className={cn(
                     "bg-[var(--admin-bg-component)] transition-colors",
