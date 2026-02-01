@@ -1,10 +1,10 @@
 import { Global, Module, OnModuleInit } from '@nestjs/common';
 import { BullModule } from '@nestjs/bullmq';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { QueueService } from './queue.service.js';
-import { StockReservationProcessor } from './processors/stock-reservation.processor.js';
-import { OrderEventsProcessor } from './processors/order-events.processor.js';
-import { InventoryModule } from '../inventory/inventory.module.js';
+import { QueueService } from './queue.service';
+import { StockReservationProcessor } from './processors/stock-reservation.processor';
+import { OrderEventsProcessor } from './processors/order-events.processor';
+import { InventoryModule } from '../inventory/inventory.module';
 
 @Global()
 @Module({

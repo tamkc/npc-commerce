@@ -1,11 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from '../../database/prisma.service.js';
-import { CreateStockLocationDto } from './dto/create-stock-location.dto.js';
-import { UpdateStockLocationDto } from './dto/update-stock-location.dto.js';
+import { PrismaService } from '../../database/prisma.service';
+import { CreateStockLocationDto } from './dto/create-stock-location.dto';
+import { UpdateStockLocationDto } from './dto/update-stock-location.dto';
 import {
   PaginationQueryDto,
   PaginatedResult,
-} from '../../common/dto/pagination-query.dto.js';
+} from '../../common/dto/pagination-query.dto';
 
 @Injectable()
 export class StockLocationService {

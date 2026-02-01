@@ -8,9 +8,9 @@ import {
 import type { RawBodyRequest } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiExcludeEndpoint } from '@nestjs/swagger';
 import type { Request } from 'express';
-import { Public } from '../../common/decorators/public.decorator.js';
-import { StripeService } from './stripe.service.js';
-import { PaymentService } from './payment.service.js';
+import { Public } from '../../common/decorators/public.decorator';
+import { StripeService } from './stripe.service';
+import { PaymentService } from './payment.service';
 
 @ApiTags('Webhooks')
 @Controller('webhooks/stripe')

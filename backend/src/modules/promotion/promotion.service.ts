@@ -1,12 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from '../../database/prisma.service.js';
+import { PrismaService } from '../../database/prisma.service';
 import {
   PaginationQueryDto,
   PaginatedResult,
-} from '../../common/dto/pagination-query.dto.js';
-import { CreatePromotionDto } from './dto/create-promotion.dto.js';
-import { UpdatePromotionDto } from './dto/update-promotion.dto.js';
-import { CacheService } from '../../common/cache/cache.service.js';
+} from '../../common/dto/pagination-query.dto';
+import { CreatePromotionDto } from './dto/create-promotion.dto';
+import { UpdatePromotionDto } from './dto/update-promotion.dto';
+import { CacheService } from '../../common/cache/cache.service';
 
 @Injectable()
 export class PromotionService {

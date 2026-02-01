@@ -9,12 +9,12 @@ import {
   Put,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
-import { CurrencyService } from './currency.service.js';
-import { CreateCurrencyDto } from './dto/create-currency.dto.js';
-import { UpdateCurrencyDto } from './dto/update-currency.dto.js';
-import { UpsertExchangeRateDto } from './dto/upsert-exchange-rate.dto.js';
-import { Public } from '../../common/decorators/public.decorator.js';
-import { Roles } from '../../common/decorators/roles.decorator.js';
+import { CurrencyService } from './currency.service';
+import { CreateCurrencyDto } from './dto/create-currency.dto';
+import { UpdateCurrencyDto } from './dto/update-currency.dto';
+import { UpsertExchangeRateDto } from './dto/upsert-exchange-rate.dto';
+import { Public } from '../../common/decorators/public.decorator';
+import { Roles } from '../../common/decorators/roles.decorator';
 
 @ApiTags('Currencies')
 @Controller()

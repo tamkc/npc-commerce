@@ -9,13 +9,13 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
-import { InventoryService } from './inventory.service.js';
-import { StockReservationService } from './stock-reservation.service.js';
-import { CreateInventoryLevelDto } from './dto/create-inventory-level.dto.js';
-import { UpdateInventoryLevelDto } from './dto/update-inventory-level.dto.js';
-import { CreateStockReservationDto } from './dto/create-stock-reservation.dto.js';
-import { PaginationQueryDto } from '../../common/dto/pagination-query.dto.js';
-import { Roles } from '../../common/decorators/roles.decorator.js';
+import { InventoryService } from './inventory.service';
+import { StockReservationService } from './stock-reservation.service';
+import { CreateInventoryLevelDto } from './dto/create-inventory-level.dto';
+import { UpdateInventoryLevelDto } from './dto/update-inventory-level.dto';
+import { CreateStockReservationDto } from './dto/create-stock-reservation.dto';
+import { PaginationQueryDto } from '../../common/dto/pagination-query.dto';
+import { Roles } from '../../common/decorators/roles.decorator';
 
 @ApiTags('Inventory')
 @Controller('admin/inventory')

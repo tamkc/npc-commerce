@@ -17,18 +17,18 @@ import {
   ApiBearerAuth,
   ApiParam,
 } from '@nestjs/swagger';
-import { CustomerService } from './customer.service.js';
-import { UpdateCustomerDto } from './dto/update-customer.dto.js';
-import { CreateAddressDto } from './dto/create-address.dto.js';
-import { UpdateAddressDto } from './dto/update-address.dto.js';
-import { CreateCustomerGroupDto } from './dto/create-customer-group.dto.js';
-import { UpdateCustomerGroupDto } from './dto/update-customer-group.dto.js';
-import { ListCustomersQueryDto } from './dto/list-customers-query.dto.js';
-import { Roles } from '../../common/decorators/roles.decorator.js';
-import { CurrentUser } from '../../common/decorators/current-user.decorator.js';
-import type { JwtPayload } from '../../common/decorators/current-user.decorator.js';
-import { RolesGuard } from '../../common/guards/roles.guard.js';
-import { UserRole } from '../../../generated/prisma/client.js';
+import { CustomerService } from './customer.service';
+import { UpdateCustomerDto } from './dto/update-customer.dto';
+import { CreateAddressDto } from './dto/create-address.dto';
+import { UpdateAddressDto } from './dto/update-address.dto';
+import { CreateCustomerGroupDto } from './dto/create-customer-group.dto';
+import { UpdateCustomerGroupDto } from './dto/update-customer-group.dto';
+import { ListCustomersQueryDto } from './dto/list-customers-query.dto';
+import { Roles } from '../../common/decorators/roles.decorator';
+import { CurrentUser } from '../../common/decorators/current-user.decorator';
+import type { JwtPayload } from '../../common/decorators/current-user.decorator';
+import { RolesGuard } from '../../common/guards/roles.guard';
+import { UserRole } from '../../../generated/prisma/client';
 
 // ================================================================
 // Admin endpoints

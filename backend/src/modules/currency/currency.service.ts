@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from '../../database/prisma.service.js';
-import { CreateCurrencyDto } from './dto/create-currency.dto.js';
-import { UpdateCurrencyDto } from './dto/update-currency.dto.js';
-import { UpsertExchangeRateDto } from './dto/upsert-exchange-rate.dto.js';
+import { PrismaService } from '../../database/prisma.service';
+import { CreateCurrencyDto } from './dto/create-currency.dto';
+import { UpdateCurrencyDto } from './dto/update-currency.dto';
+import { UpsertExchangeRateDto } from './dto/upsert-exchange-rate.dto';
 
 @Injectable()
 export class CurrencyService {

@@ -7,14 +7,14 @@ import {
   Request,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
-import { AuthService } from './auth.service.js';
-import { RegisterDto } from './dto/register.dto.js';
-import { RefreshTokenDto } from './dto/refresh-token.dto.js';
-import { ChangePasswordDto } from './dto/change-password.dto.js';
-import { LocalAuthGuard } from './guards/local-auth.guard.js';
-import { Public } from '../../common/decorators/public.decorator.js';
-import { CurrentUser } from '../../common/decorators/current-user.decorator.js';
-import type { JwtPayload } from './strategies/jwt.strategy.js';
+import { AuthService } from './auth.service';
+import { RegisterDto } from './dto/register.dto';
+import { RefreshTokenDto } from './dto/refresh-token.dto';
+import { ChangePasswordDto } from './dto/change-password.dto';
+import { LocalAuthGuard } from './guards/local-auth.guard';
+import { Public } from '../../common/decorators/public.decorator';
+import { CurrentUser } from '../../common/decorators/current-user.decorator';
+import type { JwtPayload } from './strategies/jwt.strategy';
 
 @ApiTags('Auth')
 @Controller('auth')

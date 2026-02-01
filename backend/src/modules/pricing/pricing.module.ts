@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { PrismaService } from '../../database/prisma.service.js';
-import { PricingService } from './pricing.service.js';
-import { PriceCalculatorService } from './price-calculator.service.js';
-import { PricingController } from './pricing.controller.js';
+import { PrismaService } from '../../database/prisma.service';
+import { PricingService } from './pricing.service';
+import { PriceCalculatorService } from './price-calculator.service';
+import { PricingController } from './pricing.controller';
 
 @Module({
   controllers: [PricingController],

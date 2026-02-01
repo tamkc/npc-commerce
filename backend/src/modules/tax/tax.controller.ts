@@ -9,10 +9,10 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
-import { TaxService } from './tax.service.js';
-import { CreateTaxRateDto } from './dto/create-tax-rate.dto.js';
-import { UpdateTaxRateDto } from './dto/update-tax-rate.dto.js';
-import { Roles } from '../../common/decorators/roles.decorator.js';
+import { TaxService } from './tax.service';
+import { CreateTaxRateDto } from './dto/create-tax-rate.dto';
+import { UpdateTaxRateDto } from './dto/update-tax-rate.dto';
+import { Roles } from '../../common/decorators/roles.decorator';
 
 @ApiTags('Tax')
 @Controller('admin/tax-rates')

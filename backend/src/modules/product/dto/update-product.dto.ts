@@ -6,7 +6,7 @@ import {
   IsObject,
 } from 'class-validator';
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { ProductStatus } from './create-product.dto.js';
+import { ProductStatus } from './create-product.dto';
 
 export class UpdateProductDto {
   @ApiPropertyOptional({ description: 'Product title' })

@@ -1,12 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from '../../database/prisma.service.js';
-import { OrderQueryDto } from './dto/order-query.dto.js';
-import { CreateOrderNoteDto } from './dto/create-order-note.dto.js';
-import { OrderLifecycleService } from './order-lifecycle.service.js';
+import { PrismaService } from '../../database/prisma.service';
+import { OrderQueryDto } from './dto/order-query.dto';
+import { CreateOrderNoteDto } from './dto/create-order-note.dto';
+import { OrderLifecycleService } from './order-lifecycle.service';
 import {
   PaginationQueryDto,
   PaginatedResult,
-} from '../../common/dto/pagination-query.dto.js';
+} from '../../common/dto/pagination-query.dto';
 
 @Injectable()
 export class OrderService {

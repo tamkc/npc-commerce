@@ -6,12 +6,12 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
-import { PrismaService } from '../../database/prisma.service.js';
+import { PrismaService } from '../../database/prisma.service';
 import {
   hashPassword,
   comparePasswords,
-} from '../../common/utils/hash.util.js';
-import { RegisterDto } from './dto/register.dto.js';
+} from '../../common/utils/hash.util';
+import { RegisterDto } from './dto/register.dto';
 import { v4 as uuidv4 } from 'uuid';
 
 export interface TokenPair {

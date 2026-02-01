@@ -3,11 +3,11 @@ import {
   NotFoundException,
   BadRequestException,
 } from '@nestjs/common';
-import { Prisma } from '../../../generated/prisma/client.js';
-import { PrismaService } from '../../database/prisma.service.js';
-import { CreateCartDto } from './dto/create-cart.dto.js';
-import { AddCartItemDto } from './dto/add-cart-item.dto.js';
-import { UpdateCartItemDto } from './dto/update-cart-item.dto.js';
+import { Prisma } from '../../../generated/prisma/client';
+import { PrismaService } from '../../database/prisma.service';
+import { CreateCartDto } from './dto/create-cart.dto';
+import { AddCartItemDto } from './dto/add-cart-item.dto';
+import { UpdateCartItemDto } from './dto/update-cart-item.dto';
 
 @Injectable()
 export class CartService {

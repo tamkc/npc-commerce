@@ -1,12 +1,12 @@
 import { Controller, Get, Post, Put, Param, Body, Query } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
-import { OrderService } from './order.service.js';
-import { OrderQueryDto } from './dto/order-query.dto.js';
-import { UpdateOrderStatusDto } from './dto/update-order-status.dto.js';
-import { CreateOrderNoteDto } from './dto/create-order-note.dto.js';
-import { Roles } from '../../common/decorators/roles.decorator.js';
-import { CurrentUser } from '../../common/decorators/current-user.decorator.js';
-import type { JwtPayload } from '../../common/decorators/current-user.decorator.js';
+import { OrderService } from './order.service';
+import { OrderQueryDto } from './dto/order-query.dto';
+import { UpdateOrderStatusDto } from './dto/update-order-status.dto';
+import { CreateOrderNoteDto } from './dto/create-order-note.dto';
+import { Roles } from '../../common/decorators/roles.decorator';
+import { CurrentUser } from '../../common/decorators/current-user.decorator';
+import type { JwtPayload } from '../../common/decorators/current-user.decorator';
 
 @ApiTags('Orders (Admin)')
 @ApiBearerAuth()

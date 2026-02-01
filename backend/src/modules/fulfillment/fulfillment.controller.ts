@@ -1,9 +1,9 @@
 import { Controller, Get, Post, Put, Param, Body } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
-import { FulfillmentService } from './fulfillment.service.js';
-import { CreateFulfillmentDto } from './dto/create-fulfillment.dto.js';
-import { UpdateFulfillmentDto } from './dto/update-fulfillment.dto.js';
-import { Roles } from '../../common/decorators/roles.decorator.js';
+import { FulfillmentService } from './fulfillment.service';
+import { CreateFulfillmentDto } from './dto/create-fulfillment.dto';
+import { UpdateFulfillmentDto } from './dto/update-fulfillment.dto';
+import { Roles } from '../../common/decorators/roles.decorator';
 
 @ApiTags('Fulfillments')
 @Controller('admin/fulfillments')

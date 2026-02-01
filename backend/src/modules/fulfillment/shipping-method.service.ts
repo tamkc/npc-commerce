@@ -1,11 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from '../../database/prisma.service.js';
-import { CreateShippingMethodDto } from './dto/create-shipping-method.dto.js';
-import { UpdateShippingMethodDto } from './dto/update-shipping-method.dto.js';
+import { PrismaService } from '../../database/prisma.service';
+import { CreateShippingMethodDto } from './dto/create-shipping-method.dto';
+import { UpdateShippingMethodDto } from './dto/update-shipping-method.dto';
 import {
   PaginationQueryDto,
   PaginatedResult,
-} from '../../common/dto/pagination-query.dto.js';
+} from '../../common/dto/pagination-query.dto';
 
 @Injectable()
 export class ShippingMethodService {

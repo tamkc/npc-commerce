@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from '../../database/prisma.service.js';
-import { CreateTaxRateDto } from './dto/create-tax-rate.dto.js';
-import { UpdateTaxRateDto } from './dto/update-tax-rate.dto.js';
+import { PrismaService } from '../../database/prisma.service';
+import { CreateTaxRateDto } from './dto/create-tax-rate.dto';
+import { UpdateTaxRateDto } from './dto/update-tax-rate.dto';
 
 @Injectable()
 export class TaxService {

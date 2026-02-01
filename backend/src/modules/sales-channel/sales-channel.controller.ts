@@ -8,10 +8,10 @@ import {
   Body,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
-import { SalesChannelService } from './sales-channel.service.js';
-import { CreateSalesChannelDto } from './dto/create-sales-channel.dto.js';
-import { UpdateSalesChannelDto } from './dto/update-sales-channel.dto.js';
-import { Roles } from '../../common/decorators/roles.decorator.js';
+import { SalesChannelService } from './sales-channel.service';
+import { CreateSalesChannelDto } from './dto/create-sales-channel.dto';
+import { UpdateSalesChannelDto } from './dto/update-sales-channel.dto';
+import { Roles } from '../../common/decorators/roles.decorator';
 
 @ApiTags('Sales Channels')
 @Controller('admin/sales-channels')

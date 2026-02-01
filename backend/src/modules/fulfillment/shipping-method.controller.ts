@@ -9,11 +9,11 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
-import { ShippingMethodService } from './shipping-method.service.js';
-import { CreateShippingMethodDto } from './dto/create-shipping-method.dto.js';
-import { UpdateShippingMethodDto } from './dto/update-shipping-method.dto.js';
-import { PaginationQueryDto } from '../../common/dto/pagination-query.dto.js';
-import { Roles } from '../../common/decorators/roles.decorator.js';
+import { ShippingMethodService } from './shipping-method.service';
+import { CreateShippingMethodDto } from './dto/create-shipping-method.dto';
+import { UpdateShippingMethodDto } from './dto/update-shipping-method.dto';
+import { PaginationQueryDto } from '../../common/dto/pagination-query.dto';
+import { Roles } from '../../common/decorators/roles.decorator';
 
 @ApiTags('Shipping Methods')
 @Controller('admin/shipping-methods')

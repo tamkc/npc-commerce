@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { TaxService } from './tax.service.js';
-import { TaxCalculatorService } from './tax-calculator.service.js';
-import { TaxController } from './tax.controller.js';
+import { TaxService } from './tax.service';
+import { TaxCalculatorService } from './tax-calculator.service';
+import { TaxController } from './tax.controller';
 
 @Module({
   controllers: [TaxController],

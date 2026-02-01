@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
-import { ProductService } from './product.service.js';
-import { VariantService } from './variant.service.js';
-import { CategoryService } from './category.service.js';
-import { ProductController } from './product.controller.js';
-import { VariantController } from './variant.controller.js';
-import { CategoryController } from './category.controller.js';
-import { StoreProductController } from './store-product.controller.js';
+import { ProductService } from './product.service';
+import { VariantService } from './variant.service';
+import { CategoryService } from './category.service';
+import { ProductController } from './product.controller';
+import { VariantController } from './variant.controller';
+import { CategoryController } from './category.controller';
+import { StoreProductController } from './store-product.controller';
 
 @Module({
   controllers: [

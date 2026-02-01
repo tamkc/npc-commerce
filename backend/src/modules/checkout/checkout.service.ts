@@ -3,10 +3,10 @@ import {
   BadRequestException,
   NotFoundException,
 } from '@nestjs/common';
-import { Prisma } from '../../../generated/prisma/client.js';
-import { PrismaService } from '../../database/prisma.service.js';
-import { CompleteCheckoutDto } from './dto/complete-checkout.dto.js';
-import { QueueService } from '../queue/queue.service.js';
+import { Prisma } from '../../../generated/prisma/client';
+import { PrismaService } from '../../database/prisma.service';
+import { CompleteCheckoutDto } from './dto/complete-checkout.dto';
+import { QueueService } from '../queue/queue.service';
 
 @Injectable()
 export class CheckoutService {

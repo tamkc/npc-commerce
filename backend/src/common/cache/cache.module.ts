@@ -3,7 +3,7 @@ import { CacheModule as NestCacheModule } from '@nestjs/cache-manager';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { createKeyv } from '@keyv/redis';
 import Redis from 'ioredis';
-import { CacheService } from './cache.service.js';
+import { CacheService } from './cache.service';
 
 export const REDIS_CLIENT = 'REDIS_CLIENT';
 

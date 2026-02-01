@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { FulfillmentService } from './fulfillment.service.js';
-import { ShippingMethodService } from './shipping-method.service.js';
-import { FulfillmentController } from './fulfillment.controller.js';
-import { ShippingMethodController } from './shipping-method.controller.js';
+import { FulfillmentService } from './fulfillment.service';
+import { ShippingMethodService } from './shipping-method.service';
+import { FulfillmentController } from './fulfillment.controller';
+import { ShippingMethodController } from './shipping-method.controller';
 
 @Module({
   controllers: [FulfillmentController, ShippingMethodController],

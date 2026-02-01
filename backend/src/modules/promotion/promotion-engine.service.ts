@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../database/prisma.service.js';
-import { CacheService } from '../../common/cache/cache.service.js';
-import { CacheKeys, CacheTTL } from '../../common/cache/cache-keys.js';
+import { PrismaService } from '../../database/prisma.service';
+import { CacheService } from '../../common/cache/cache.service';
+import { CacheKeys, CacheTTL } from '../../common/cache/cache-keys';
 
 @Injectable()
 export class PromotionEngineService {

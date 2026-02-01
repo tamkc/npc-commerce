@@ -8,12 +8,12 @@ import {
   Put,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
-import { Public } from '../../common/decorators/public.decorator.js';
-import { CartService } from './cart.service.js';
-import { CreateCartDto } from './dto/create-cart.dto.js';
-import { AddCartItemDto } from './dto/add-cart-item.dto.js';
-import { UpdateCartItemDto } from './dto/update-cart-item.dto.js';
-import { ApplyDiscountDto } from './dto/apply-discount.dto.js';
+import { Public } from '../../common/decorators/public.decorator';
+import { CartService } from './cart.service';
+import { CreateCartDto } from './dto/create-cart.dto';
+import { AddCartItemDto } from './dto/add-cart-item.dto';
+import { UpdateCartItemDto } from './dto/update-cart-item.dto';
+import { ApplyDiscountDto } from './dto/apply-discount.dto';
 
 @ApiTags('Store / Cart')
 @ApiBearerAuth()

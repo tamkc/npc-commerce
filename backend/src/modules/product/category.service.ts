@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from '../../database/prisma.service.js';
-import { CreateCategoryDto } from './dto/create-category.dto.js';
-import { UpdateCategoryDto } from './dto/update-category.dto.js';
-import { generateSlug } from '../../common/utils/slug.util.js';
+import { PrismaService } from '../../database/prisma.service';
+import { CreateCategoryDto } from './dto/create-category.dto';
+import { UpdateCategoryDto } from './dto/update-category.dto';
+import { generateSlug } from '../../common/utils/slug.util';
 
 @Injectable()
 export class CategoryService {

@@ -1,9 +1,9 @@
 import { Controller, Get, Post, Delete, Param, Body } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
-import { ApiKeyService } from './api-key.service.js';
-import { CreateApiKeyDto } from './dto/create-api-key.dto.js';
-import { Roles } from '../../common/decorators/roles.decorator.js';
-import { CurrentUser } from '../../common/decorators/current-user.decorator.js';
+import { ApiKeyService } from './api-key.service';
+import { CreateApiKeyDto } from './dto/create-api-key.dto';
+import { Roles } from '../../common/decorators/roles.decorator';
+import { CurrentUser } from '../../common/decorators/current-user.decorator';
 
 @ApiTags('API Keys')
 @Controller('admin/api-keys')

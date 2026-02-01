@@ -1,8 +1,8 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
-import { Public } from '../../common/decorators/public.decorator.js';
-import { CheckoutService } from './checkout.service.js';
-import { CompleteCheckoutDto } from './dto/complete-checkout.dto.js';
+import { Public } from '../../common/decorators/public.decorator';
+import { CheckoutService } from './checkout.service';
+import { CompleteCheckoutDto } from './dto/complete-checkout.dto';
 
 @ApiTags('Store / Checkout')
 @ApiBearerAuth()

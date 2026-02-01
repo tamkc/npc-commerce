@@ -1,7 +1,7 @@
 import { Processor, WorkerHost } from '@nestjs/bullmq';
 import { Logger } from '@nestjs/common';
 import { Job } from 'bullmq';
-import { StockReservationService } from '../../inventory/stock-reservation.service.js';
+import { StockReservationService } from '../../inventory/stock-reservation.service';
 
 @Processor('stock-reservation')
 export class StockReservationProcessor extends WorkerHost {

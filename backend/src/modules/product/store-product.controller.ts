@@ -1,8 +1,8 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
-import { Public } from '../../common/decorators/public.decorator.js';
-import { ProductService } from './product.service.js';
-import { ProductQueryDto } from './dto/product-query.dto.js';
+import { Public } from '../../common/decorators/public.decorator';
+import { ProductService } from './product.service';
+import { ProductQueryDto } from './dto/product-query.dto';
 
 @ApiTags('Store Products')
 @Controller('store/products')

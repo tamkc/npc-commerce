@@ -9,11 +9,11 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
-import { StockLocationService } from './stock-location.service.js';
-import { CreateStockLocationDto } from './dto/create-stock-location.dto.js';
-import { UpdateStockLocationDto } from './dto/update-stock-location.dto.js';
-import { PaginationQueryDto } from '../../common/dto/pagination-query.dto.js';
-import { Roles } from '../../common/decorators/roles.decorator.js';
+import { StockLocationService } from './stock-location.service';
+import { CreateStockLocationDto } from './dto/create-stock-location.dto';
+import { UpdateStockLocationDto } from './dto/update-stock-location.dto';
+import { PaginationQueryDto } from '../../common/dto/pagination-query.dto';
+import { Roles } from '../../common/decorators/roles.decorator';
 
 @ApiTags('Stock Locations')
 @Controller('admin/stock-locations')

@@ -3,9 +3,9 @@ import {
   NotFoundException,
   BadRequestException,
 } from '@nestjs/common';
-import { PrismaService } from '../../database/prisma.service.js';
-import { CreateFulfillmentDto } from './dto/create-fulfillment.dto.js';
-import { UpdateFulfillmentDto } from './dto/update-fulfillment.dto.js';
+import { PrismaService } from '../../database/prisma.service';
+import { CreateFulfillmentDto } from './dto/create-fulfillment.dto';
+import { UpdateFulfillmentDto } from './dto/update-fulfillment.dto';
 
 @Injectable()
 export class FulfillmentService {

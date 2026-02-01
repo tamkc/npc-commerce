@@ -3,14 +3,14 @@ import {
   NotFoundException,
   ConflictException,
 } from '@nestjs/common';
-import { PrismaService } from '../../database/prisma.service.js';
-import type { User, Prisma } from '../../../generated/prisma/client.js';
-import { CreateUserDto } from './dto/create-user.dto.js';
-import { UpdateUserDto } from './dto/update-user.dto.js';
-import { ListUsersQueryDto } from './dto/list-users-query.dto.js';
-import { PaginatedResponseDto } from '../../common/dto/paginated-response.dto.js';
-import { getPaginationParams } from '../../common/utils/pagination.util.js';
-import { hashPassword } from '../../common/utils/hash.util.js';
+import { PrismaService } from '../../database/prisma.service';
+import type { User, Prisma } from '../../../generated/prisma/client';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { ListUsersQueryDto } from './dto/list-users-query.dto';
+import { PaginatedResponseDto } from '../../common/dto/paginated-response.dto';
+import { getPaginationParams } from '../../common/utils/pagination.util';
+import { hashPassword } from '../../common/utils/hash.util';
 
 @Injectable()
 export class UserService {

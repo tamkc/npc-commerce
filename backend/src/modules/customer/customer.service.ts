@@ -3,21 +3,21 @@ import {
   NotFoundException,
   ConflictException,
 } from '@nestjs/common';
-import { PrismaService } from '../../database/prisma.service.js';
+import { PrismaService } from '../../database/prisma.service';
 import type {
   Customer,
   Address,
   CustomerGroup,
   Prisma,
-} from '../../../generated/prisma/client.js';
-import { UpdateCustomerDto } from './dto/update-customer.dto.js';
-import { CreateAddressDto } from './dto/create-address.dto.js';
-import { UpdateAddressDto } from './dto/update-address.dto.js';
-import { CreateCustomerGroupDto } from './dto/create-customer-group.dto.js';
-import { UpdateCustomerGroupDto } from './dto/update-customer-group.dto.js';
-import { ListCustomersQueryDto } from './dto/list-customers-query.dto.js';
-import { PaginatedResponseDto } from '../../common/dto/paginated-response.dto.js';
-import { getPaginationParams } from '../../common/utils/pagination.util.js';
+} from '../../../generated/prisma/client';
+import { UpdateCustomerDto } from './dto/update-customer.dto';
+import { CreateAddressDto } from './dto/create-address.dto';
+import { UpdateAddressDto } from './dto/update-address.dto';
+import { CreateCustomerGroupDto } from './dto/create-customer-group.dto';
+import { UpdateCustomerGroupDto } from './dto/update-customer-group.dto';
+import { ListCustomersQueryDto } from './dto/list-customers-query.dto';
+import { PaginatedResponseDto } from '../../common/dto/paginated-response.dto';
+import { getPaginationParams } from '../../common/utils/pagination.util';
 
 @Injectable()
 export class CustomerService {

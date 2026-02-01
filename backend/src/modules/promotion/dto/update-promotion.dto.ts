@@ -15,7 +15,7 @@ import { Type } from 'class-transformer';
 import {
   PromotionType,
   PromotionConditionDto,
-} from './create-promotion.dto.js';
+} from './create-promotion.dto';
 
 export class UpdatePromotionDto {
   @ApiPropertyOptional({ description: 'Unique discount code' })

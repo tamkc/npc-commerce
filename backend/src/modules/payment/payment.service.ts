@@ -3,12 +3,12 @@ import {
   NotFoundException,
   BadRequestException,
 } from '@nestjs/common';
-import { Prisma } from '../../../generated/prisma/client.js';
+import { Prisma } from '../../../generated/prisma/client';
 import Stripe from 'stripe';
-import { PrismaService } from '../../database/prisma.service.js';
-import { StripeService } from './stripe.service.js';
-import { CreatePaymentIntentDto } from './dto/create-payment-intent.dto.js';
-import { CreateRefundDto } from './dto/create-refund.dto.js';
+import { PrismaService } from '../../database/prisma.service';
+import { StripeService } from './stripe.service';
+import { CreatePaymentIntentDto } from './dto/create-payment-intent.dto';
+import { CreateRefundDto } from './dto/create-refund.dto';
 
 @Injectable()
 export class PaymentService {

@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from '../../database/prisma.service.js';
-import { CreateSalesChannelDto } from './dto/create-sales-channel.dto.js';
-import { UpdateSalesChannelDto } from './dto/update-sales-channel.dto.js';
+import { PrismaService } from '../../database/prisma.service';
+import { CreateSalesChannelDto } from './dto/create-sales-channel.dto';
+import { UpdateSalesChannelDto } from './dto/update-sales-channel.dto';
 
 @Injectable()
 export class SalesChannelService {

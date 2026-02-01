@@ -1,12 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from '../../database/prisma.service.js';
-import { CreateProductDto } from './dto/create-product.dto.js';
-import { UpdateProductDto } from './dto/update-product.dto.js';
-import { ProductQueryDto } from './dto/product-query.dto.js';
-import { PaginatedResult } from '../../common/dto/pagination-query.dto.js';
-import { generateSlug } from '../../common/utils/slug.util.js';
-import { CacheService } from '../../common/cache/cache.service.js';
-import { CacheKeys, CacheTTL } from '../../common/cache/cache-keys.js';
+import { PrismaService } from '../../database/prisma.service';
+import { CreateProductDto } from './dto/create-product.dto';
+import { UpdateProductDto } from './dto/update-product.dto';
+import { ProductQueryDto } from './dto/product-query.dto';
+import { PaginatedResult } from '../../common/dto/pagination-query.dto';
+import { generateSlug } from '../../common/utils/slug.util';
+import { CacheService } from '../../common/cache/cache.service';
+import { CacheKeys, CacheTTL } from '../../common/cache/cache-keys';
 
 @Injectable()
 export class ProductService {

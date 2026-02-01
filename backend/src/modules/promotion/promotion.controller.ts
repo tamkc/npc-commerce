@@ -9,12 +9,12 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
-import { PromotionService } from './promotion.service.js';
-import { PromotionEngineService } from './promotion-engine.service.js';
-import { CreatePromotionDto } from './dto/create-promotion.dto.js';
-import { UpdatePromotionDto } from './dto/update-promotion.dto.js';
-import { PaginationQueryDto } from '../../common/dto/pagination-query.dto.js';
-import { Roles } from '../../common/decorators/roles.decorator.js';
+import { PromotionService } from './promotion.service';
+import { PromotionEngineService } from './promotion-engine.service';
+import { CreatePromotionDto } from './dto/create-promotion.dto';
+import { UpdatePromotionDto } from './dto/update-promotion.dto';
+import { PaginationQueryDto } from '../../common/dto/pagination-query.dto';
+import { Roles } from '../../common/decorators/roles.decorator';
 
 @ApiTags('Promotions')
 @Controller('admin/promotions')

@@ -8,10 +8,10 @@ import {
   Param,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
-import { Roles } from '../../common/decorators/roles.decorator.js';
-import { VariantService } from './variant.service.js';
-import { CreateVariantDto } from './dto/create-variant.dto.js';
-import { UpdateVariantDto } from './dto/update-variant.dto.js';
+import { Roles } from '../../common/decorators/roles.decorator';
+import { VariantService } from './variant.service';
+import { CreateVariantDto } from './dto/create-variant.dto';
+import { UpdateVariantDto } from './dto/update-variant.dto';
 
 @ApiTags('Admin Product Variants')
 @ApiBearerAuth()

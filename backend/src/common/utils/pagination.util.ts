@@ -1,4 +1,4 @@
-import type { PaginationQueryDto } from '../dto/pagination-query.dto.js';
+import type { PaginationQueryDto } from '../dto/pagination-query.dto';
 
 export function getPaginationParams(query: PaginationQueryDto): {
   skip: number;

@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { StripeService } from './stripe.service.js';
-import { PaymentService } from './payment.service.js';
-import { PaymentController } from './payment.controller.js';
-import { WebhookController } from './webhook.controller.js';
+import { StripeService } from './stripe.service';
+import { PaymentService } from './payment.service';
+import { PaymentController } from './payment.controller';
+import { WebhookController } from './webhook.controller';
 
 @Module({
   imports: [ConfigModule],

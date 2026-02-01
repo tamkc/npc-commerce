@@ -2,14 +2,14 @@ import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { AppModule } from './app.module.js';
-import { HttpExceptionFilter } from './common/filters/http-exception.filter.js';
-import { PrismaExceptionFilter } from './common/filters/prisma-exception.filter.js';
-import { TransformResponseInterceptor } from './common/interceptors/transform-response.interceptor.js';
-import { LoggingInterceptor } from './common/interceptors/logging.interceptor.js';
-import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor.js';
+import { AppModule } from './app.module';
+import { HttpExceptionFilter } from './common/filters/http-exception.filter';
+import { PrismaExceptionFilter } from './common/filters/prisma-exception.filter';
+import { TransformResponseInterceptor } from './common/interceptors/transform-response.interceptor';
+import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
+import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor';
 import { WinstonModule } from 'nest-winston';
-import { loggerConfig } from './config/logger.config.js';
+import { loggerConfig } from './config/logger.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {

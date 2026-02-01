@@ -1,13 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from '../../database/prisma.service.js';
+import { PrismaService } from '../../database/prisma.service';
 import {
   PaginationQueryDto,
   PaginatedResult,
-} from '../../common/dto/pagination-query.dto.js';
-import { CreatePriceListDto } from './dto/create-price-list.dto.js';
-import { UpdatePriceListDto } from './dto/update-price-list.dto.js';
-import { SetPriceDto } from './dto/set-price.dto.js';
-import { CacheService } from '../../common/cache/cache.service.js';
+} from '../../common/dto/pagination-query.dto';
+import { CreatePriceListDto } from './dto/create-price-list.dto';
+import { UpdatePriceListDto } from './dto/update-price-list.dto';
+import { SetPriceDto } from './dto/set-price.dto';
+import { CacheService } from '../../common/cache/cache.service';
 
 @Injectable()
 export class PricingService {

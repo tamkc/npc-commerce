@@ -1,13 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from '../../database/prisma.service.js';
-import { CreateInventoryLevelDto } from './dto/create-inventory-level.dto.js';
-import { UpdateInventoryLevelDto } from './dto/update-inventory-level.dto.js';
+import { PrismaService } from '../../database/prisma.service';
+import { CreateInventoryLevelDto } from './dto/create-inventory-level.dto';
+import { UpdateInventoryLevelDto } from './dto/update-inventory-level.dto';
 import {
   PaginationQueryDto,
   PaginatedResult,
-} from '../../common/dto/pagination-query.dto.js';
-import { CacheService } from '../../common/cache/cache.service.js';
-import { CacheKeys, CacheTTL } from '../../common/cache/cache-keys.js';
+} from '../../common/dto/pagination-query.dto';
+import { CacheService } from '../../common/cache/cache.service';
+import { CacheKeys, CacheTTL } from '../../common/cache/cache-keys';
 
 @Injectable()
 export class InventoryService {

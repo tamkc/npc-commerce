@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
-import { PaymentService } from './payment.service.js';
-import { CreatePaymentIntentDto } from './dto/create-payment-intent.dto.js';
-import { CreateRefundDto } from './dto/create-refund.dto.js';
+import { PaymentService } from './payment.service';
+import { CreatePaymentIntentDto } from './dto/create-payment-intent.dto';
+import { CreateRefundDto } from './dto/create-refund.dto';
 
 @ApiTags('Admin / Payments')
 @ApiBearerAuth()

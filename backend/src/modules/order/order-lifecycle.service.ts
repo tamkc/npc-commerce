@@ -3,9 +3,9 @@ import {
   BadRequestException,
   NotFoundException,
 } from '@nestjs/common';
-import { PrismaService } from '../../database/prisma.service.js';
-import { ORDER_STATUS_TRANSITIONS } from '../../common/constants/index.js';
-import { QueueService } from '../queue/queue.service.js';
+import { PrismaService } from '../../database/prisma.service';
+import { ORDER_STATUS_TRANSITIONS } from '../../common/constants/index';
+import { QueueService } from '../queue/queue.service';
 
 @Injectable()
 export class OrderLifecycleService {

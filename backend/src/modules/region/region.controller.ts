@@ -8,11 +8,11 @@ import {
   Body,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
-import { RegionService } from './region.service.js';
-import { CreateRegionDto } from './dto/create-region.dto.js';
-import { UpdateRegionDto } from './dto/update-region.dto.js';
-import { Public } from '../../common/decorators/public.decorator.js';
-import { Roles } from '../../common/decorators/roles.decorator.js';
+import { RegionService } from './region.service';
+import { CreateRegionDto } from './dto/create-region.dto';
+import { UpdateRegionDto } from './dto/update-region.dto';
+import { Public } from '../../common/decorators/public.decorator';
+import { Roles } from '../../common/decorators/roles.decorator';
 
 @ApiTags('Regions')
 @Controller()

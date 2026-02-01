@@ -6,10 +6,10 @@ import {
   ForbiddenException,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
-import { OrderService } from './order.service.js';
-import { PaginationQueryDto } from '../../common/dto/pagination-query.dto.js';
-import { CurrentUser } from '../../common/decorators/current-user.decorator.js';
-import type { JwtPayload } from '../../common/decorators/current-user.decorator.js';
+import { OrderService } from './order.service';
+import { PaginationQueryDto } from '../../common/dto/pagination-query.dto';
+import { CurrentUser } from '../../common/decorators/current-user.decorator';
+import type { JwtPayload } from '../../common/decorators/current-user.decorator';
 
 @ApiTags('Orders (Store)')
 @ApiBearerAuth()

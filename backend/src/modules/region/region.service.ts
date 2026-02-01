@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from '../../database/prisma.service.js';
-import { CreateRegionDto } from './dto/create-region.dto.js';
-import { UpdateRegionDto } from './dto/update-region.dto.js';
+import { PrismaService } from '../../database/prisma.service';
+import { CreateRegionDto } from './dto/create-region.dto';
+import { UpdateRegionDto } from './dto/update-region.dto';
 
 @Injectable()
 export class RegionService {

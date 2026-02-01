@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from '../../database/prisma.service.js';
-import type { ApiKey } from '../../../generated/prisma/client.js';
-import { CreateApiKeyDto } from './dto/create-api-key.dto.js';
-import { generateApiKey, hashApiKey } from '../../common/utils/hash.util.js';
+import { PrismaService } from '../../database/prisma.service';
+import type { ApiKey } from '../../../generated/prisma/client';
+import { CreateApiKeyDto } from './dto/create-api-key.dto';
+import { generateApiKey, hashApiKey } from '../../common/utils/hash.util';
 
 /** Shape returned when a new key is generated (raw key shown once). */
 export interface GeneratedApiKey {

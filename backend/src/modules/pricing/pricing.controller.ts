@@ -10,15 +10,15 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
-import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard.js';
-import { RolesGuard } from '../../common/guards/roles.guard.js';
-import { Roles } from '../../common/decorators/roles.decorator.js';
-import { PaginationQueryDto } from '../../common/dto/pagination-query.dto.js';
-import { PricingService } from './pricing.service.js';
-import { PriceCalculatorService } from './price-calculator.service.js';
-import { CreatePriceListDto } from './dto/create-price-list.dto.js';
-import { UpdatePriceListDto } from './dto/update-price-list.dto.js';
-import { SetPriceDto } from './dto/set-price.dto.js';
+import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
+import { RolesGuard } from '../../common/guards/roles.guard';
+import { Roles } from '../../common/decorators/roles.decorator';
+import { PaginationQueryDto } from '../../common/dto/pagination-query.dto';
+import { PricingService } from './pricing.service';
+import { PriceCalculatorService } from './price-calculator.service';
+import { CreatePriceListDto } from './dto/create-price-list.dto';
+import { UpdatePriceListDto } from './dto/update-price-list.dto';
+import { SetPriceDto } from './dto/set-price.dto';
 
 @ApiTags('Pricing')
 @ApiBearerAuth()
