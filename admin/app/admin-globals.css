@@ -1,0 +1,102 @@
+/* Admin Design System — Color tokens & overrides */
+:root {
+  --admin-bg-base: #ffffff;
+  --admin-bg-subtle: #f8f9fa;
+  --admin-bg-component: #ffffff;
+  --admin-bg-field: #ffffff;
+  --admin-bg-field-hover: #f8f9fa;
+  --admin-bg-interactive: #6c47ff;
+  --admin-bg-overlay: rgba(3, 7, 18, 0.4);
+
+  --admin-fg-base: #0b0e14;
+  --admin-fg-subtle: #555e6e;
+  --admin-fg-muted: #8b95a5;
+  --admin-fg-disabled: #b5bdc9;
+  --admin-fg-on-color: #ffffff;
+  --admin-fg-on-inverted: #ffffff;
+  --admin-fg-interactive: #6c47ff;
+  --admin-fg-interactive-hover: #5b38e0;
+  --admin-fg-error: #e5484d;
+
+  --admin-border-base: #e1e4ea;
+  --admin-border-strong: #cdd1d9;
+  --admin-border-interactive: #6c47ff;
+  --admin-border-error: #e5484d;
+  --admin-border-transparent: transparent;
+
+  --admin-tag-neutral-bg: #f0f2f5;
+  --admin-tag-neutral-fg: #555e6e;
+  --admin-tag-purple-bg: #ede9fe;
+  --admin-tag-purple-fg: #6c47ff;
+  --admin-tag-blue-bg: #e0f2fe;
+  --admin-tag-blue-fg: #0284c7;
+  --admin-tag-green-bg: #dcfce7;
+  --admin-tag-green-fg: #16a34a;
+  --admin-tag-orange-bg: #ffedd5;
+  --admin-tag-orange-fg: #ea580c;
+  --admin-tag-red-bg: #fee2e2;
+  --admin-tag-red-fg: #dc2626;
+
+  --admin-button-inverted: #0b0e14;
+  --admin-button-inverted-hover: #1c2030;
+  --admin-button-inverted-pressed: #2a2f40;
+
+  --admin-contrast-fg-primary: #fafafa;
+  --admin-contrast-fg-secondary: #b5bdc9;
+
+  --admin-shadow-elevation-card: 0px 1px 2px 0px rgba(0, 0, 0, 0.06),
+    0px 1px 3px 0px rgba(0, 0, 0, 0.1);
+  --admin-shadow-elevation-modal: 0px 4px 6px -1px rgba(0, 0, 0, 0.08),
+    0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --admin-bg-base: #0b0e14;
+    --admin-bg-subtle: #13161f;
+    --admin-bg-component: #1a1d28;
+    --admin-bg-field: #13161f;
+    --admin-bg-field-hover: #1a1d28;
+    --admin-bg-interactive: #7c5cfc;
+    --admin-bg-overlay: rgba(0, 0, 0, 0.6);
+
+    --admin-fg-base: #eceef2;
+    --admin-fg-subtle: #9ca3af;
+    --admin-fg-muted: #6b7280;
+    --admin-fg-disabled: #4b5563;
+    --admin-fg-on-color: #ffffff;
+    --admin-fg-interactive: #7c5cfc;
+    --admin-fg-interactive-hover: #9b85fd;
+    --admin-fg-error: #f87171;
+
+    --admin-border-base: #272b38;
+    --admin-border-strong: #3b4050;
+    --admin-border-interactive: #7c5cfc;
+    --admin-border-error: #f87171;
+
+    --admin-tag-neutral-bg: #1f2330;
+    --admin-tag-neutral-fg: #9ca3af;
+    --admin-tag-purple-bg: #1e1548;
+    --admin-tag-purple-fg: #a78bfa;
+    --admin-tag-blue-bg: #0c2d48;
+    --admin-tag-blue-fg: #38bdf8;
+    --admin-tag-green-bg: #052e16;
+    --admin-tag-green-fg: #4ade80;
+    --admin-tag-orange-bg: #431407;
+    --admin-tag-orange-fg: #fb923c;
+    --admin-tag-red-bg: #450a0a;
+    --admin-tag-red-fg: #f87171;
+
+    --admin-button-inverted: #ffffff;
+    --admin-button-inverted-hover: #eceef2;
+    --admin-button-inverted-pressed: #d1d5db;
+
+    --admin-contrast-fg-primary: #0b0e14;
+    --admin-contrast-fg-secondary: #4b5563;
+
+    --admin-shadow-elevation-card: 0px 1px 2px 0px rgba(0, 0, 0, 0.3),
+      0px 1px 3px 0px rgba(0, 0, 0, 0.4);
+    --admin-shadow-elevation-modal: 0px 4px 6px -1px rgba(0, 0, 0, 0.3),
+      0px 10px 15px -3px rgba(0, 0, 0, 0.4);
+  }
+}
