@@ -1,9 +1,9 @@
 {
-  "name": "npc-commerce-storefront",
+  "name": "npc-commerce-admin",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --port 7001",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
@@ -13,8 +13,6 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
-    "@stripe/react-stripe-js": "^5.6.0",
-    "@stripe/stripe-js": "^8.7.0",
     "@tanstack/react-query": "^5.90.20",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
@@ -38,7 +36,6 @@
     "@vitejs/plugin-react": "^5.1.2",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
-    "jsdom": "^27.4.0",
     "prettier": "^3.8.1",
     "tailwindcss": "^4",
     "typescript": "^5",
