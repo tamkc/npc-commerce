@@ -84,7 +84,7 @@ class AdminApiClient {
       }
       this.clearTokens();
       if (typeof window !== "undefined") {
-        window.location.href = "/admin/login";
+        window.location.href = `${process.env.NEXT_PUBLIC_BASE_PATH || ""}/admin/login`;
       }
     }
 

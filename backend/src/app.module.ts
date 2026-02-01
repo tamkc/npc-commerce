@@ -1,6 +1,9 @@
-import { Module } from '@nestjs/common';
+import { Module, MiddlewareConsumer, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
+import { SpaFallbackMiddleware } from './common/middleware/spa-fallback.middleware.js';
 
 import appConfig from './config/app.config.js';
 import jwtConfig from './config/jwt.config.js';
@@ -50,6 +53,11 @@ import { QueueModule } from './modules/queue/queue.module.js';
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'public'),
+      serveRoot: '/app',
+      exclude: ['/api/v1/{*path}'],
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
       load: [appConfig, jwtConfig, stripeConfig, throttleConfig, redisConfig],
@@ -115,4 +123,8 @@ import { QueueModule } from './modules/queue/queue.module.js';
     },
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(SpaFallbackMiddleware).forRoutes('/app/{*path}');
+  }
+}

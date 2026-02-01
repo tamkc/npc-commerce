@@ -8,3 +8,6 @@ dist
 
 /generated/prisma
 tsconfig.tsbuildinfo
+
+# Admin build output (generated from admin/ project)
+public

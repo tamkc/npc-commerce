@@ -20,14 +20,17 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
 
   // Global prefix
-  app.setGlobalPrefix('api/v1');
+  app.setGlobalPrefix('api/v1', {
+    exclude: ['/app/{*path}'],
+  });
 
   // CORS
+  const corsOrigins = configService.get<string>(
+    'app.corsOrigins',
+    'http://localhost:3000,http://localhost:7001',
+  );
   app.enableCors({
-    origin: configService.get<string>(
-      'app.corsOrigins',
-      'http://localhost:3000',
-    ),
+    origin: corsOrigins.split(',').map((o) => o.trim()),
     credentials: true,
   });
 

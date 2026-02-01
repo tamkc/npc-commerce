@@ -7,6 +7,9 @@
   "license": "UNLICENSED",
   "scripts": {
     "build": "nest build",
+    "build:admin": "cd ../admin && npm run build",
+    "copy:admin": "node scripts/copy-admin-build.js",
+    "build:full": "npm run build:admin && npm run copy:admin && npm run build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
@@ -29,6 +32,7 @@
     "@nestjs/jwt": "^11.0.2",
     "@nestjs/passport": "^11.0.5",
     "@nestjs/platform-express": "^11.0.1",
+    "@nestjs/serve-static": "^5.0.4",
     "@nestjs/swagger": "^11.2.5",
     "@nestjs/throttler": "^6.5.0",
     "@prisma/adapter-pg": "^7.3.0",
