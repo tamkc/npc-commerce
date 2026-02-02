@@ -22,7 +22,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { ListUsersQueryDto } from './dto/list-users-query.dto';
 import { Roles } from '../../common/decorators/roles.decorator';
 import { RolesGuard } from '../../common/guards/roles.guard';
-import { UserRole } from '../../../generated/prisma/client';
+import { UserRole } from '@prisma/client';
 
 @ApiTags('Admin Users')
 @ApiBearerAuth()

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../database/prisma.service';
-import { Prisma } from '../../../generated/prisma/client';
+import { Prisma } from '@prisma/client';
 type Decimal = Prisma.Decimal;
 const Decimal = Prisma.Decimal;
 

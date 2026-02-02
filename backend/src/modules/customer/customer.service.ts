@@ -9,7 +9,7 @@ import type {
   Address,
   CustomerGroup,
   Prisma,
-} from '../../../generated/prisma/client';
+} from '@prisma/client';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
 import { CreateAddressDto } from './dto/create-address.dto';
 import { UpdateAddressDto } from './dto/update-address.dto';
