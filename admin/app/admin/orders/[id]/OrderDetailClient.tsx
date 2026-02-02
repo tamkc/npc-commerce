@@ -49,6 +49,12 @@ export default function OrderDetailClient({
 
   const order = data?.data;
 
+  const handleAddNote = async () => {
+    if (!noteText.trim()) return;
+    await addNote.mutateAsync({ content: noteText, isPrivate: true });
+    setNoteText("");
+  };
+
   if (isLoading) {
     return (
       <div className="space-y-6">
@@ -61,12 +67,6 @@ export default function OrderDetailClient({
   if (!order) {
     return <p className="text-[var(--admin-fg-muted)]">Order not found.</p>;
   }
-
-  const handleAddNote = async () => {
-    if (!noteText.trim()) return;
-    await addNote.mutateAsync({ content: noteText, isPrivate: true });
-    setNoteText("");
-  };
 
   return (
     <div className="space-y-6">
